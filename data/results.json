@@ -1,25 +1,83 @@
 {
-  "activeTournamentId": "2026-04-10-deneme",
+  "activeTournamentId": "2026-05-19-genel-siralama",
   "tournaments": [
     {
-      "id": "2026-04-10-deneme",
-      "title": "Okul İçi Online Satranç Deneme Turnuvası",
-      "dateLabel": "10 NİSAN",
-      "tempo": "Arena / Hızlı Satranç",
-      "status": "completed",
-      "players": [
-        { "rank": 1, "username": "Paylanco", "fullName": "", "className": "", "points": 3, "tieBreak": 4, "performance": 1564, "wins": 3, "draws": 0, "losses": 1 },
-        { "rank": 2, "username": "EmirAli35", "fullName": "", "className": "", "points": 2, "tieBreak": 1, "performance": 1010, "wins": 2, "draws": 0, "losses": 1 },
-        { "rank": 3, "username": "dorukasilkaragull", "fullName": "", "className": "", "points": 2, "tieBreak": 0.5, "performance": 908, "wins": 2, "draws": 0, "losses": 1 },
-        { "rank": 4, "username": "Kuzeyoko", "fullName": "", "className": "", "points": 1, "tieBreak": 1, "performance": 715, "wins": 1, "draws": 0, "losses": 1 },
-        { "rank": 5, "username": "bushra_3", "fullName": "", "className": "", "points": 0, "tieBreak": 0, "performance": 864, "wins": 0, "draws": 0, "losses": 3 }
-      ]
+      "id": "2026-05-19-genel-siralama",
+      "title": "19 Mayıs Gençlik ve Spor Bayramı Genel Sıralaması",
+      "dateLabel": "11-19 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • 9 Turnuva Toplamı",
+      "status": "planned",
+      "players": []
     },
     {
-      "id": "yakinda",
-      "title": "Bir Sonraki Online Satranç Turnuvası",
-      "dateLabel": "YAKINDA",
-      "tempo": "Duyurulacak",
+      "id": "2026-05-11",
+      "title": "11 Mayıs Günlük Turnuva",
+      "dateLabel": "11 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-12",
+      "title": "12 Mayıs Günlük Turnuva",
+      "dateLabel": "12 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-13",
+      "title": "13 Mayıs Günlük Turnuva",
+      "dateLabel": "13 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-14",
+      "title": "14 Mayıs Günlük Turnuva",
+      "dateLabel": "14 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-15",
+      "title": "15 Mayıs Günlük Turnuva",
+      "dateLabel": "15 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-16",
+      "title": "16 Mayıs Günlük Turnuva",
+      "dateLabel": "16 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-17",
+      "title": "17 Mayıs Günlük Turnuva",
+      "dateLabel": "17 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-18",
+      "title": "18 Mayıs Günlük Turnuva",
+      "dateLabel": "18 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
+      "status": "planned",
+      "players": []
+    },
+    {
+      "id": "2026-05-19",
+      "title": "19 Mayıs Günlük Turnuva",
+      "dateLabel": "19 MAYIS",
+      "tempo": "İsviçre Sistemi • 5+3 • Saat 20.00",
       "status": "planned",
       "players": []
     }

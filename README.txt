@@ -50,3 +50,18 @@ PDF ALMA
 --------
 Sayfadaki "İlk 3 Duyuru PDF" veya sertifika bölümündeki "Sertifikayı PDF Al" butonu tarayıcı yazdırma ekranını açar.
 Hedef olarak "PDF olarak kaydet" seçilir.
+
+
+19 MAYIS TURNUVA SERİSİ NOTLARI
+------------------------------
+- Turnuva adı: 19 Mayıs Gençlik ve Spor Bayramı Satranç Turnuvası
+- Tarihler: 11, 12, 13, 14, 15, 16, 17, 18, 19 Mayıs
+- Başlangıç saati: Her gün 20.00
+- Sistem: İsviçre sistemi
+- Tempo: 5+3
+- Genel sonuç: Tüm turnuvalardan alınan toplam puana göre belirlenir.
+- Ödüller: 1. 1000 TL, 2. 750 TL, 3. 500 TL
+- Tüm katılımcılara sertifika verilecektir.
+
+Günlük turnuva linkleri oluşturuldukça index.html içinde program bölümüne veya duyuru panosuna eklenebilir.
+Sonuçlar data/results.json dosyasına girildiğinde web sayfası otomatik okur.

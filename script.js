@@ -6,9 +6,9 @@ const CONFIG = {
   tournamentUrl: "",
 
   // Turnuva tarihi hazır olunca ISO formatında değiştir. Örnek: "2026-05-20T20:00:00+03:00"
-  tournamentDate: "",
+  tournamentDate: "2026-05-11T20:00:00+03:00",
 
-  tournamentDateLabel: "Tarih ve saat yakında duyurulacaktır."
+  tournamentDateLabel: "11 Mayıs 2026 Pazartesi, 20.00"
 };
 
 function setupLinks() {
@@ -32,7 +32,7 @@ function setupLinks() {
   if (notice) {
     notice.textContent = CONFIG.tournamentUrl
       ? "Turnuva sayfası hazır. Butona basarak Lichess turnuva ekranına gidebilirsin."
-      : "Turnuva bağlantısı oluşturulduğunda buradaki buton otomatik güncellenecek.";
+      : "Turnuva bağlantıları oluşturuldukça bu sayfada yayınlanacak. Seri 11-19 Mayıs arasında her gün 20.00’da oynanacaktır.";
   }
 }
 
@@ -181,21 +181,15 @@ setupApplicationForm();
 // Gelişmiş sonuç sistemi: JSON okuma + sekmeler + PDF sertifika
 // ------------------------------------------------------------
 const FALLBACK_RESULTS = {
-  activeTournamentId: "2026-04-10-deneme",
+  activeTournamentId: "2026-05-19-genel-siralama",
   tournaments: [
     {
-      id: "2026-04-10-deneme",
-      title: "Okul İçi Online Satranç Deneme Turnuvası",
-      dateLabel: "10 NİSAN",
-      tempo: "Arena / Hızlı Satranç",
-      status: "completed",
-      players: [
-        { rank: 1, username: "Paylanco", fullName: "", className: "", points: 3, tieBreak: 4, performance: 1564, wins: 3, draws: 0, losses: 1 },
-        { rank: 2, username: "EmirAli35", fullName: "", className: "", points: 2, tieBreak: 1, performance: 1010, wins: 2, draws: 0, losses: 1 },
-        { rank: 3, username: "dorukasilkaragull", fullName: "", className: "", points: 2, tieBreak: 0.5, performance: 908, wins: 2, draws: 0, losses: 1 },
-        { rank: 4, username: "Kuzeyoko", fullName: "", className: "", points: 1, tieBreak: 1, performance: 715, wins: 1, draws: 0, losses: 1 },
-        { rank: 5, username: "bushra_3", fullName: "", className: "", points: 0, tieBreak: 0, performance: 864, wins: 0, draws: 0, losses: 3 }
-      ]
+      id: "2026-05-19-genel-siralama",
+      title: "19 Mayıs Gençlik ve Spor Bayramı Genel Sıralaması",
+      dateLabel: "11-19 MAYIS",
+      tempo: "İsviçre Sistemi • 5+3 • 9 Turnuva Toplamı",
+      status: "planned",
+      players: []
     }
   ]
 };
