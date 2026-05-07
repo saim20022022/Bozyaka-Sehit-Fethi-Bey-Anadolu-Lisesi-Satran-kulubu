@@ -20,6 +20,7 @@
     </a>
     <nav class="nav" aria-label="Sayfa bağlantıları">
       <a href="#katilim">Katılım</a>
+      <a href="#basvuru-formu">Başvuru Yap</a>
       <a href="#basvuru-bilgisi">Başvuru Bilgisi</a>
       <a href="#kurallar">Kurallar</a>
       <a href="#sonuclar">Sonuçlar</a>
@@ -106,6 +107,82 @@
           </div>
           <p class="join-warning">Eksik bilgiyle gönderilen takım katılım istekleri onaylanmayacaktır.</p>
         </div>
+      </div>
+    </section>
+
+
+    <section id="basvuru-formu" class="section-shell application-section">
+      <div class="section-title left-title">
+        <p class="eyebrow">Web üzerinden ön başvuru</p>
+        <h2>Turnuva Başvuru Formu</h2>
+        <p>
+          Bu form okul içi başvuru kaydı içindir. Formu gönderdikten sonra Lichess takım sayfasına geçip
+          ayrıca <strong>Takıma Katıl</strong> isteği göndermeyi unutmayınız.
+        </p>
+      </div>
+
+      <div class="application-grid">
+        <form id="applicationForm" name="satranc-turnuva-basvuru" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="application-form">
+          <input type="hidden" name="form-name" value="satranc-turnuva-basvuru" />
+          <p class="hidden-field">
+            <label>Bu alan boş kalmalı: <input name="bot-field" /></label>
+          </p>
+
+          <div class="form-row">
+            <label for="fullName">Ad Soyad <span>*</span></label>
+            <input id="fullName" name="ad_soyad" type="text" placeholder="Örnek: Ahmet Yılmaz" required />
+          </div>
+
+          <div class="form-split">
+            <div class="form-row">
+              <label for="className">Sınıf <span>*</span></label>
+              <input id="className" name="sinif" type="text" placeholder="Örnek: 10/A" required />
+            </div>
+            <div class="form-row">
+              <label for="schoolNo">Okul No <span>*</span></label>
+              <input id="schoolNo" name="okul_no" type="text" inputmode="numeric" placeholder="Örnek: 245" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="lichessUser">Lichess Kullanıcı Adı <span>*</span></label>
+            <input id="lichessUser" name="lichess_kullanici_adi" type="text" placeholder="Örnek: BlackKnight35" required />
+          </div>
+
+          <div class="form-row">
+            <label for="note">Not / Açıklama</label>
+            <textarea id="note" name="not" rows="3" placeholder="İsteğe bağlı kısa not yazabilirsiniz."></textarea>
+          </div>
+
+          <label class="check-row">
+            <input id="rulesAccepted" name="kurallari_kabul" type="checkbox" value="Evet" required />
+            <span>Turnuva kurallarını okudum; dış yardım, motor ve yapay zekâ kullanmayacağımı kabul ediyorum.</span>
+          </label>
+
+          <button class="btn btn-primary full" type="submit">Başvurumu Gönder</button>
+          <p id="formMessage" class="form-message" role="status"></p>
+        </form>
+
+        <aside class="application-side">
+          <h3>Başvuru sonrası ne yapılacak?</h3>
+          <ol>
+            <li>Bu formu eksiksiz doldur.</li>
+            <li>Lichess takım sayfasına git.</li>
+            <li>Takıma katılma isteği gönder.</li>
+            <li>Açıklama bölümüne aynı bilgileri yaz.</li>
+          </ol>
+          <div class="copy-card">
+            <strong>Lichess başvuru açıklamasına kopyala:</strong>
+            <pre id="copyTemplate">Ad Soyad:
+Sınıf:
+Okul No:
+Lichess Kullanıcı Adı:</pre>
+            <button class="btn btn-secondary full" type="button" id="copyTemplateButton">Bilgi Formatını Kopyala</button>
+          </div>
+          <a class="btn btn-primary full" href="http://lichess.org/team/sehit-fethi-bey-anadolu-lisesi" target="_blank" rel="noopener">
+            Lichess Takımına Git
+          </a>
+        </aside>
       </div>
     </section>
 
