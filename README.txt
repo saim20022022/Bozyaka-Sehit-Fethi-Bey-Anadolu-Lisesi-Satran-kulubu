@@ -29,3 +29,24 @@ Netlify'da yayınlandığında form gönderimleri Netlify Forms bölümüne dü�
 Netlify panelinden Site > Forms bölümünden başvurular görülebilir ve CSV indirilebilir.
 
 Önemli: Bu form Lichess takımına otomatik üye yapmaz. Öğrenci formdan sonra Lichess takım sayfasına gidip ayrıca 'Takıma Katıl' isteği göndermelidir.
+
+GELİŞMİŞ SONUÇ MODÜLÜ
+---------------------
+Bu sürümde Sonuçlar bölümü geliştirildi:
+- Gerçek kupa SVG tasarımı
+- Lichess tarzına yakın derece tablosu
+- Son Turnuva / Önceki Turnuvalar / PDF Sertifika sekmeleri
+- İlk 3 derece için okul duyurusu görünümü
+- Öğrenci bazlı PDF sertifika alma
+- Sonuçları data/results.json dosyasından otomatik okuma
+
+SONUÇ GÜNCELLEME
+----------------
+Turnuva bitince data/results.json dosyasını açıp oyuncu listesini düzenle.
+Örnek alanlar:
+rank, username, fullName, className, points, tieBreak, performance, wins, draws, losses
+
+PDF ALMA
+--------
+Sayfadaki "İlk 3 Duyuru PDF" veya sertifika bölümündeki "Sertifikayı PDF Al" butonu tarayıcı yazdırma ekranını açar.
+Hedef olarak "PDF olarak kaydet" seçilir.

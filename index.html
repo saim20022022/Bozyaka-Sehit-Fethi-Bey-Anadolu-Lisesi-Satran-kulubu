@@ -223,23 +223,105 @@ Lichess Kullanıcı Adı:</pre>
       </div>
     </section>
 
-    <section id="sonuclar" class="section-shell two-col">
-      <div class="panel dark-panel">
-        <p class="eyebrow">Derece Tablosu</p>
-        <h2>Sonuçlar</h2>
-        <p>Turnuva tamamlandıktan sonra ilk üç derece ve özel ödül alan öğrenciler bu alanda yayınlanacaktır.</p>
-        <div class="podium">
-          <div><span>🥈</span><strong>2.</strong><small>Yakında</small></div>
-          <div class="first"><span>🏆</span><strong>1.</strong><small>Yakında</small></div>
-          <div><span>🥉</span><strong>3.</strong><small>Yakında</small></div>
+    <section id="sonuclar" class="section-shell results-pro-section">
+      <div class="results-topbar">
+        <div>
+          <p class="eyebrow">Derece Tablosu</p>
+          <h2>Turnuva Sonuçları</h2>
+          <p>
+            Son turnuva, geçmiş turnuvalar, derece tablosu, PDF sertifika ve okul duyurusu bu bölümden yönetilir.
+          </p>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-secondary" type="button" id="refreshResultsBtn">Sonuçları Yenile</button>
+          <button class="btn btn-primary" type="button" id="printAnnouncementBtn">İlk 3 Duyuru PDF</button>
         </div>
       </div>
-      <div class="panel">
-        <h2>Duyuru Panosu</h2>
-        <ul class="announcements" id="announcements">
-          <li><strong>Takım sayfası açıldı.</strong><span>Öğrenciler okul Lichess takımına katılabilir.</span></li>
-          <li><strong>Turnuva tarihi yakında.</strong><span>Tarih, saat ve tempo bilgisi bu sayfadan duyurulacaktır.</span></li>
-        </ul>
+
+      <div class="result-tabs" role="tablist" aria-label="Turnuva sonuç sekmeleri">
+        <button class="result-tab active" type="button" data-tab="latest">Son Turnuva</button>
+        <button class="result-tab" type="button" data-tab="archive">Önceki Turnuvalar</button>
+        <button class="result-tab" type="button" data-tab="certificate">PDF Sertifika</button>
+      </div>
+
+      <div class="result-tab-panel active" id="latestPanel">
+        <div class="lichess-result-card">
+          <div class="lichess-result-head">
+            <span id="resultDateLabel">Tarih yakında</span>
+            <strong id="resultTitleLabel">Turnuva sonuçları yakında yayınlanacaktır.</strong>
+            <small id="resultMetaLabel">Lichess sonuçları data/results.json dosyasından otomatik okunur.</small>
+          </div>
+
+          <div class="winner-stage" id="winnerStage">
+            <!-- JS ile doldurulur -->
+          </div>
+
+          <div class="standings-card-pro">
+            <div class="standings-toolbar-pro">
+              <div>
+                <strong>Genel Sıralama</strong>
+                <span id="standingsRange">0-0 / 0</span>
+              </div>
+              <div class="standings-legend">
+                <span><i class="dot win"></i> Galibiyet</span>
+                <span><i class="dot draw"></i> Beraberlik</span>
+                <span><i class="dot loss"></i> Mağlubiyet</span>
+              </div>
+            </div>
+            <div class="standings-scroll">
+              <table class="standings-table-pro">
+                <thead>
+                  <tr>
+                    <th>Sıra</th>
+                    <th>Oyuncu</th>
+                    <th>Performans</th>
+                    <th>G</th>
+                    <th>B</th>
+                    <th>M</th>
+                    <th>Puan</th>
+                    <th>Beraberlik Kırıcı</th>
+                    <th>PDF</th>
+                  </tr>
+                </thead>
+                <tbody id="standingsTableBody">
+                  <!-- JS ile doldurulur -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="winner-announcement" id="winnerAnnouncement">
+          <!-- JS ile doldurulur -->
+        </div>
+      </div>
+
+      <div class="result-tab-panel" id="archivePanel">
+        <div class="archive-grid" id="archiveGrid">
+          <!-- JS ile doldurulur -->
+        </div>
+      </div>
+
+      <div class="result-tab-panel" id="certificatePanel">
+        <div class="certificate-control-card">
+          <h3>PDF Sonuç Sertifikası</h3>
+          <p>Öğrenci seçip sertifikayı önizleyebilir, tarayıcıdan PDF olarak kaydedebilirsin.</p>
+          <div class="certificate-controls">
+            <select id="certificatePlayerSelect" aria-label="Sertifika öğrencisi seç"></select>
+            <button class="btn btn-primary" type="button" id="printCertificateBtn">Sertifikayı PDF Al</button>
+          </div>
+        </div>
+        <div class="certificate-preview" id="certificatePreview">
+          <!-- JS ile doldurulur -->
+        </div>
+      </div>
+
+      <div class="panel results-help-panel">
+        <h3>Sonuçları nasıl güncelleyeceksin?</h3>
+        <p>
+          Netlify/GitHub içinde <code>data/results.json</code> dosyasındaki kullanıcı adı, puan, beraberlik kırıcı ve performans değerlerini değiştirmen yeterlidir.
+          Sayfa açılınca sonuçları otomatik okur.
+        </p>
       </div>
     </section>
   </main>

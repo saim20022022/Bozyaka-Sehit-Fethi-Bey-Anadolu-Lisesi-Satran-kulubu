@@ -1,0 +1,27 @@
+{
+  "activeTournamentId": "2026-04-10-deneme",
+  "tournaments": [
+    {
+      "id": "2026-04-10-deneme",
+      "title": "Okul İçi Online Satranç Deneme Turnuvası",
+      "dateLabel": "10 NİSAN",
+      "tempo": "Arena / Hızlı Satranç",
+      "status": "completed",
+      "players": [
+        { "rank": 1, "username": "Paylanco", "fullName": "", "className": "", "points": 3, "tieBreak": 4, "performance": 1564, "wins": 3, "draws": 0, "losses": 1 },
+        { "rank": 2, "username": "EmirAli35", "fullName": "", "className": "", "points": 2, "tieBreak": 1, "performance": 1010, "wins": 2, "draws": 0, "losses": 1 },
+        { "rank": 3, "username": "dorukasilkaragull", "fullName": "", "className": "", "points": 2, "tieBreak": 0.5, "performance": 908, "wins": 2, "draws": 0, "losses": 1 },
+        { "rank": 4, "username": "Kuzeyoko", "fullName": "", "className": "", "points": 1, "tieBreak": 1, "performance": 715, "wins": 1, "draws": 0, "losses": 1 },
+        { "rank": 5, "username": "bushra_3", "fullName": "", "className": "", "points": 0, "tieBreak": 0, "performance": 864, "wins": 0, "draws": 0, "losses": 3 }
+      ]
+    },
+    {
+      "id": "yakinda",
+      "title": "Bir Sonraki Online Satranç Turnuvası",
+      "dateLabel": "YAKINDA",
+      "tempo": "Duyurulacak",
+      "status": "planned",
+      "players": []
+    }
+  ]
+}
