@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bozyaka Şehit Fethi Bey AL | Online Satranç Turnuvası</title>
+  <meta name="description" content="Bozyaka Şehit Fethi Bey Anadolu Lisesi Satranç Kulübü online satranç turnuvası katılım ve duyuru sayfası." />
+  <link rel="icon" href="assets/favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-bg"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Ana sayfa">
+      <img src="assets/okul-amblemi.png" alt="Okul amblemi" />
+      <span>
+        <strong>Bozyaka Şehit Fethi Bey Anadolu Lisesi</strong>
+        <small>Satranç Kulübü</small>
+      </span>
+    </a>
+    <nav class="nav" aria-label="Sayfa bağlantıları">
+      <a href="#katilim">Katılım</a>
+      <a href="#kurallar">Kurallar</a>
+      <a href="#sonuclar">Sonuçlar</a>
+      <a class="nav-cta" href="http://lichess.org/team/sehit-fethi-bey-anadolu-lisesi" target="_blank" rel="noopener">Lichess Takımı</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-content">
+        <p class="eyebrow">♟️ Lichess üzerinden çevrim içi turnuva</p>
+        <h1>Online Satranç Turnuvası</h1>
+        <p class="hero-lead">
+          Stratejini kur, hamleni yap. Okulumuz Satranç Kulübü öğrencilerimizi
+          çevrim içi satranç turnuvasında buluşturuyor.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="http://lichess.org/team/sehit-fethi-bey-anadolu-lisesi" target="_blank" rel="noopener">
+            Okul Takımına Katıl
+          </a>
+          <a class="btn btn-secondary" id="tournamentButton" href="#katilim">
+            Turnuva Sayfasına Git
+          </a>
+        </div>
+
+        <div class="notice" id="tournamentNotice">
+          Turnuva bağlantısı oluşturulduğunda buradaki buton otomatik güncellenecek.
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Turnuva özeti">
+        <div class="emblem-wrap">
+          <img src="assets/okul-amblemi.png" alt="Okul satranç amblemi" />
+        </div>
+        <h2>Turnuva Başlangıcına</h2>
+        <div class="countdown" id="countdown">
+          <div><strong id="days">--</strong><span>Gün</span></div>
+          <div><strong id="hours">--</strong><span>Saat</span></div>
+          <div><strong id="minutes">--</strong><span>Dakika</span></div>
+          <div><strong id="seconds">--</strong><span>Saniye</span></div>
+        </div>
+        <p class="small-note" id="dateText">Tarih ve saat yakında duyurulacaktır.</p>
+      </aside>
+    </section>
+
+    <section class="stats section-shell" aria-label="Turnuva bilgi kartları">
+      <article>
+        <span>Platform</span>
+        <strong>Lichess.org</strong>
+        <small>Ücretsiz ve çevrim içi</small>
+      </article>
+      <article>
+        <span>Katılım</span>
+        <strong>Okul Öğrencileri</strong>
+        <small>Lichess kullanıcı adı gerekir</small>
+      </article>
+      <article>
+        <span>Turnuva Türü</span>
+        <strong>Arena / Swiss</strong>
+        <small>Duyuruda belirtilecek</small>
+      </article>
+      <article>
+        <span>Sonuçlar</span>
+        <strong>Webde Duyurulur</strong>
+        <small>Derece listesi yayınlanır</small>
+      </article>
+    </section>
+
+    <section id="katilim" class="section-shell two-col">
+      <div class="panel glass">
+        <p class="eyebrow">Katılım Rehberi</p>
+        <h2>Turnuvaya nasıl katılırım?</h2>
+        <ol class="steps">
+          <li><strong>Lichess hesabı oluştur.</strong><span>lichess.org üzerinden ücretsiz hesap aç.</span></li>
+          <li><strong>Okul takımına katıl.</strong><span>Aşağıdaki butonla okul takım sayfasına git.</span></li>
+          <li><strong>Kullanıcı adını bildir.</strong><span>Danışman öğretmene ad-soyad, sınıf ve Lichess kullanıcı adını ilet.</span></li>
+          <li><strong>Turnuva saatinde hazır ol.</strong><span>Turnuva bağlantısından giriş yap ve maçlarını oyna.</span></li>
+        </ol>
+      </div>
+
+      <div class="panel action-panel">
+        <h2>Katılım Bağlantıları</h2>
+        <p>Önce okul satranç takımına katıl. Turnuva linki oluşturulunca bu sayfada yayınlanacak.</p>
+        <a class="btn btn-primary full" href="http://lichess.org/team/sehit-fethi-bey-anadolu-lisesi" target="_blank" rel="noopener">Okul Satranç Takımına Katıl</a>
+        <a class="btn btn-secondary full" id="tournamentButton2" href="#">Turnuva Linki Yakında</a>
+        <div class="mini-box">
+          <strong>Danışman Öğretmen Notu</strong>
+          <span>Katılım listesi için öğrencinin Lichess kullanıcı adı mutlaka alınmalıdır.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="kurallar" class="section-shell">
+      <div class="section-title">
+        <p class="eyebrow">Sportmenlik ve adil oyun</p>
+        <h2>Turnuva Kuralları</h2>
+      </div>
+      <div class="rules-grid">
+        <article><b>01</b><h3>Okul öğrencileri katılır</h3><p>Turnuva okulumuz öğrencilerine yöneliktir. Katılımcılar Lichess kullanıcı adlarını danışman öğretmene bildirir.</p></article>
+        <article><b>02</b><h3>Dış yardım yasaktır</h3><p>Motor, yapay zekâ, analiz aracı veya başka kişiden yardım almak kesinlikle yasaktır.</p></article>
+        <article><b>03</b><h3>Sportmenlik esastır</h3><p>Rakibe saygı, centilmenlik ve okul kültürüne uygun davranış beklenir.</p></article>
+        <article><b>04</b><h3>Sonuçlar duyurulur</h3><p>Turnuva sonunda dereceye giren öğrenciler okul web sayfası üzerinden ilan edilir.</p></article>
+      </div>
+    </section>
+
+    <section id="sonuclar" class="section-shell two-col">
+      <div class="panel dark-panel">
+        <p class="eyebrow">Derece Tablosu</p>
+        <h2>Sonuçlar</h2>
+        <p>Turnuva tamamlandıktan sonra ilk üç derece ve özel ödül alan öğrenciler bu alanda yayınlanacaktır.</p>
+        <div class="podium">
+          <div><span>🥈</span><strong>2.</strong><small>Yakında</small></div>
+          <div class="first"><span>🏆</span><strong>1.</strong><small>Yakında</small></div>
+          <div><span>🥉</span><strong>3.</strong><small>Yakında</small></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Duyuru Panosu</h2>
+        <ul class="announcements" id="announcements">
+          <li><strong>Takım sayfası açıldı.</strong><span>Öğrenciler okul Lichess takımına katılabilir.</span></li>
+          <li><strong>Turnuva tarihi yakında.</strong><span>Tarih, saat ve tempo bilgisi bu sayfadan duyurulacaktır.</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/okul-amblemi.png" alt="Okul amblemi" />
+    <p>
+      <strong>Bozyaka Şehit Fethi Bey Anadolu Lisesi Satranç Kulübü</strong><br />
+      Bu sayfa okul turnuva duyurusu ve Lichess yönlendirme ekranı olarak hazırlanmıştır.
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
