@@ -11,7 +11,7 @@ BOZYAKA ONLINE SATRANÇ TURNUVASI - NETLIFY SAYFASI
 4) MEB okul sitesinde duyuru/kısayol olarak Netlify linkini paylaşın.
 
 Mevcut Lichess takım linki:
-http://lichess.org/team/sehit-fethi-bey-anadolu-lisesi
+https://lichess.org/team/bozyaka-sfbal-satranc-kulubu
 
 
 YENİ EKLENEN: WEB BAŞVURU FORMU

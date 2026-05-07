@@ -1,6 +1,6 @@
 const CONFIG = {
   schoolName: "Bozyaka Şehit Fethi Bey Anadolu Lisesi",
-  teamUrl: "http://lichess.org/team/sehit-fethi-bey-anadolu-lisesi",
+  teamUrl: "https://lichess.org/team/bozyaka-sfbal-satranc-kulubu",
 
   // Turnuva linki hazır olunca aşağıdaki değeri değiştir:
   tournamentUrl: "",
