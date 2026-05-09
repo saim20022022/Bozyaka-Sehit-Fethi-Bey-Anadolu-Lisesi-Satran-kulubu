@@ -1,382 +1,189 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bozyaka Şehit Fethi Bey AL | 19 Mayıs Satranç Turnuvası</title>
-  <meta name="description" content="Bozyaka Şehit Fethi Bey Anadolu Lisesi Satranç Kulübü 19 Mayıs Gençlik ve Spor Bayramı online satranç turnuvası katılım, program ve sonuç sayfası." />
-  <link rel="icon" href="assets/favicon.png" />
+  <title>Bozyaka ŞFBA 19 Mayıs Online Satranç Turnuvası</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="page-bg"></div>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Ana sayfa">
-      <img src="assets/okul-amblemi.png" alt="Okul amblemi" />
-      <span>
-        <strong>Bozyaka Şehit Fethi Bey Anadolu Lisesi</strong>
-        <small>Satranç Kulübü</small>
-      </span>
-    </a>
-    <nav class="nav" aria-label="Sayfa bağlantıları">
-      <a href="#program">Program</a>
-      <a href="#katilim">Katılım</a>
-      <a href="#basvuru-formu">Başvuru Yap</a>
-      <a href="#basvuru-bilgisi">Başvuru Bilgisi</a>
-      <a href="#kurallar">Kurallar</a>
-      <a href="#sonuclar">Sonuçlar</a>
-      <a class="nav-cta" href="https://lichess.org/team/bozyaka-sfbal-satranc-kulubu" target="_blank" rel="noopener">Lichess Takımı</a>
-    </nav>
-  </header>
+  <main class="page">
+    <section class="top-panel">
+      <div class="hero">
+        <header class="brand-row">
+          <div class="logo-mark">♞</div>
+          <div>
+            <strong>Bozyaka Şehit Fethi Bey Anadolu Lisesi</strong>
+            <span>Satranç Kulübü</span>
+          </div>
+        </header>
 
-  <main id="top">
-    <section class="hero section-shell">
-      <div class="hero-content">
-        <p class="eyebrow">🇹🇷 19 Mayıs Gençlik ve Spor Bayramı turnuva serisi</p>
-        <h1>19 Mayıs Gençlik ve Spor Bayramı Satranç Turnuvası</h1>
-        <p class="hero-lead">
-          11-19 Mayıs tarihleri arasında her akşam saat 20.00’da başlayacak İsviçre sistemi online satranç turnuva serisi. Genel derece, tüm turnuvalardan toplanan puanlara göre belirlenecektir.
+        <p class="eyebrow">TR 19 MAYIS GENÇLİK VE SPOR BAYRAMI</p>
+        <h1>Online Satranç<br />Turnuvası</h1>
+        <p class="lead">
+          11-19 Mayıs arasında her akşam <strong>20.00</strong>'da Lichess üzerinden oynanır.
+          Sistem <strong>İsviçre</strong>, tempo <strong>5+3</strong>. Genel derece, 9 turnuvanın toplam puanına göre belirlenir.
         </p>
 
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://lichess.org/team/bozyaka-sfbal-satranc-kulubu" target="_blank" rel="noopener">
-            Okul Takımına Katıl
-          </a>
-          <a class="btn btn-secondary" id="tournamentButton" href="#katilim">
-            Turnuva Sayfasına Git
-          </a>
+        <div class="info-grid">
+          <article><span>Platform</span><strong>Lichess</strong></article>
+          <article><span>Katılım</span><strong>Okul öğrencileri</strong></article>
+          <article><span>Ödüller</span><strong>1000 / 750 / 500 TL</strong></article>
+          <article><span>Süreç</span><strong>Başvuru + onay</strong></article>
         </div>
 
-        <div class="notice important-notice" id="tournamentNotice">
-          Seri boyunca her gün saat <strong>20.00</strong> başlangıç, tempo <strong>5+3</strong>, sistem <strong>İsviçre</strong>. Takıma katılırken Ad Soyad, Sınıf, Okul No ve Lichess Kullanıcı Adı yazılması zorunludur.
+        <div class="countdown" aria-label="Turnuva geri sayımı">
+          <div><strong id="days">00</strong><span>Gün</span></div>
+          <div><strong id="hours">00</strong><span>Saat</span></div>
+          <div><strong id="minutes">00</strong><span>Dakika</span></div>
+          <div><strong id="seconds">00</strong><span>Saniye</span></div>
         </div>
+
+        <div class="button-row">
+          <a class="btn primary" href="https://lichess.org/team/bozyaka-sfbal-satranc-kulubu" target="_blank" rel="noopener">Lichess Takımı</a>
+          <button class="btn soft" type="button" disabled>Turnuva Sayfası Yakında</button>
+        </div>
+        <p class="note">Turnuva bağlantıları oluşturuldukça bu sayfada yayımlanacaktır. Seri 11-19 Mayıs arasında her gün 20.00'da oynanacaktır.</p>
       </div>
 
-      <aside class="hero-card" aria-label="Turnuva özeti">
-        <div class="emblem-wrap">
-          <img src="assets/okul-amblemi.png" alt="Okul satranç amblemi" />
-        </div>
-        <h2>İlk Turnuvaya Kalan Süre</h2>
-        <div class="countdown" id="countdown">
-          <div><strong id="days">--</strong><span>Gün</span></div>
-          <div><strong id="hours">--</strong><span>Saat</span></div>
-          <div><strong id="minutes">--</strong><span>Dakika</span></div>
-          <div><strong id="seconds">--</strong><span>Saniye</span></div>
-        </div>
-        <p class="small-note" id="dateText">Tarih ve saat yakında duyurulacaktır.</p>
+      <aside class="form-card">
+        <h2>Başvuru Formu</h2>
+        <p>Form gönderilince kayıt Google Sheets'e düşer, ardından Lichess takım sayfası açılır.</p>
+
+        <form id="applicationForm" autocomplete="on">
+          <label>
+            <span>Ad Soyad *</span>
+            <input type="text" name="ad_soyad" placeholder="Örnek: Ahmet Yılmaz" required />
+          </label>
+
+          <div class="two-col">
+            <label>
+              <span>Sınıf *</span>
+              <input type="text" name="sinif" placeholder="10/A" required />
+            </label>
+            <label>
+              <span>Okul No *</span>
+              <input type="text" name="okul_no" placeholder="245" required />
+            </label>
+          </div>
+
+          <label>
+            <span>Lichess Kullanıcı Adı *</span>
+            <input type="text" name="lichess_kullanici_adi" placeholder="BlackKnight35" required />
+          </label>
+
+          <label>
+            <span>Telefon / Veli Telefonu</span>
+            <input type="tel" name="telefon" placeholder="İsteğe bağlı" />
+          </label>
+
+          <label>
+            <span>Açıklama</span>
+            <textarea name="not" rows="2" placeholder="İsteğe bağlı"></textarea>
+          </label>
+
+          <label class="check-row">
+            <input type="checkbox" name="kurallar_kabul" value="Evet" required />
+            <span>Turnuva kurallarını ve adil oyun şartlarını kabul ediyorum.</span>
+          </label>
+
+          <button class="submit-btn" type="submit" id="submitButton">Başvuruyu Gönder</button>
+          <p id="formMessage" class="form-message" role="status"></p>
+        </form>
       </aside>
     </section>
 
-    <section class="stats section-shell" aria-label="Turnuva bilgi kartları">
+    <section class="mini-cards">
       <article>
-        <span>Platform</span>
-        <strong>Lichess.org</strong>
-        <small>Okul takımı üzerinden</small>
+        <h3>Başvuru Sırası</h3>
+        <ol>
+          <li>Formu eksiksiz doldur.</li>
+          <li>Açılan Lichess takım sayfasından katılma isteği gönder.</li>
+          <li>Açıklamaya ad soyad, sınıf, okul no ve kullanıcı adını yaz.</li>
+        </ol>
       </article>
       <article>
-        <span>Katılım</span>
-        <strong>Okul Öğrencileri</strong>
-        <small>Başvuru ve takım onayı gerekir</small>
+        <h3>Kurallar</h3>
+        <ul>
+          <li>Sadece okul öğrencileri katılabilir.</li>
+          <li>Motor, yapay zekâ ve dış yardım yasaktır.</li>
+          <li>Eksik bilgiyle gelen takım istekleri onaylanmaz.</li>
+        </ul>
       </article>
       <article>
-        <span>Turnuva Türü</span>
-        <strong>İsviçre Sistemi</strong>
-        <small>Her gün 20.00 • 5+3</small>
+        <h3>Takvim</h3>
+        <strong class="red">11-19 Mayıs</strong>
+        <p><b>Her gün 20.00</b><br />5+3 • İsviçre sistemi</p>
       </article>
       <article>
-        <span>Sonuçlar</span>
-        <strong>Genel Puan</strong>
-        <small>9 turnuva toplamı</small>
+        <h3>Sonuçlar</h3>
+        <p>19 Mayıs Gençlik ve Spor Bayramı Genel Sıralaması turnuva tamamlandıktan sonra yayımlanacaktır.</p>
       </article>
     </section>
 
-    <section id="program" class="section-shell festival-section">
-      <div class="festival-hero-card">
-        <div>
-          <p class="eyebrow">Turnuva serisi</p>
-          <h2>19 Mayıs Gençlik ve Spor Bayramı Online Satranç Turnuvası</h2>
-          <p>
-            11, 12, 13, 14, 15, 16, 17, 18 ve 19 Mayıs tarihlerinde peş peşe her gün saat <strong>20.00</strong>'da başlayacak turnuvalar düzenlenecektir.
-            Her turnuva <strong>İsviçre sistemi</strong> ile oynanacak, tempo <strong>5+3</strong> olacaktır. Genel şampiyonluk, öğrencilerin tüm turnuvalardan aldığı toplam puana göre belirlenecektir.
-          </p>
-        </div>
-        <div class="festival-prizes" aria-label="Ödüller">
-          <div class="prize-card first-prize"><span>🏆</span><strong>1. Ödül</strong><b>1000 TL</b></div>
-          <div class="prize-card second-prize"><span>🥈</span><strong>2. Ödül</strong><b>750 TL</b></div>
-          <div class="prize-card third-prize"><span>🥉</span><strong>3. Ödül</strong><b>500 TL</b></div>
-          <div class="prize-card certificate-prize"><span>📜</span><strong>Katılım</strong><b>Sertifika</b></div>
-        </div>
-      </div>
-
-      <div class="schedule-card">
-        <div class="schedule-head">
+    <section class="tables-grid">
+      <article class="table-card">
+        <div class="table-title">
           <div>
-            <p class="eyebrow">Program</p>
-            <h3>9 Günlük Turnuva Takvimi</h3>
+            <span>Katılım Durumu</span>
+            <h2>Katılımı Onaylananlar</h2>
           </div>
-          <div class="schedule-badge">Her gün 20.00 • 5+3 • İsviçre</div>
+          <input id="approvedSearch" type="search" placeholder="Ara" />
         </div>
-        <div class="schedule-grid">
-          <article><strong>11 Mayıs</strong><span>1. Turnuva</span><small>20.00</small></article>
-          <article><strong>12 Mayıs</strong><span>2. Turnuva</span><small>20.00</small></article>
-          <article><strong>13 Mayıs</strong><span>3. Turnuva</span><small>20.00</small></article>
-          <article><strong>14 Mayıs</strong><span>4. Turnuva</span><small>20.00</small></article>
-          <article><strong>15 Mayıs</strong><span>5. Turnuva</span><small>20.00</small></article>
-          <article><strong>16 Mayıs</strong><span>6. Turnuva</span><small>20.00</small></article>
-          <article><strong>17 Mayıs</strong><span>7. Turnuva</span><small>20.00</small></article>
-          <article><strong>18 Mayıs</strong><span>8. Turnuva</span><small>20.00</small></article>
-          <article class="final-day"><strong>19 Mayıs</strong><span>Final Günü</span><small>20.00</small></article>
+        <div class="table-wrap small-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Ad Soyad</th>
+                <th>Sınıf</th>
+                <th>Okul No</th>
+                <th>Kullanıcı Adı</th>
+              </tr>
+            </thead>
+            <tbody id="approvedBody"></tbody>
+          </table>
         </div>
-      </div>
+      </article>
 
-      <div class="scoring-card">
-        <p class="eyebrow">Genel derece nasıl belirlenecek?</p>
-        <h3>Toplam Puan Sistemi</h3>
-        <p>
-          Her gün oynanan turnuvadan alınan puanlar öğrencinin genel puanına eklenir. 19 Mayıs sonunda toplam puanı en yüksek olan öğrenciler genel sıralamada dereceye girer.
-          Eşitlik durumunda önce toplam beraberlik kırıcı, sonra toplam performans puanı dikkate alınabilir.
-        </p>
-      </div>
+      <article class="table-card wide-table-card">
+        <div class="table-title">
+          <div>
+            <span>Derece Tablosu</span>
+            <h2>Turnuva Sıralaması</h2>
+          </div>
+          <input id="standingsSearch" type="search" placeholder="Sıralamada ara" />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sıra</th>
+                <th>Ad Soyad</th>
+                <th>Sınıf</th>
+                <th>Okul No</th>
+                <th>Kullanıcı Adı</th>
+                <th>Puan</th>
+                <th>Durum</th>
+              </tr>
+            </thead>
+            <tbody id="standingsBody"></tbody>
+          </table>
+        </div>
+      </article>
     </section>
 
-    <section id="basvuru-bilgisi" class="section-shell join-info">
-      <div class="join-alert">
-        <div class="join-icon">📌</div>
-        <div>
-          <p class="eyebrow">Takıma katılmadan önce dikkat</p>
-          <h2>Başvuru açıklamasına bu bilgileri yazınız</h2>
-          <p class="join-lead">
-            Lichess kullanıcı adları gerçek ad-soyad ile aynı olmayabilir. Bu nedenle takım başvurusu onaylanmadan önce öğrencinin kimlik bilgisi okul içi kontrol için gereklidir.
-          </p>
-          <div class="join-format" aria-label="Başvuru bilgi formatı">
-            <span><b>Ad Soyad:</b> Örnek: Ahmet Yılmaz</span>
-            <span><b>Sınıf:</b> Örnek: 10/A</span>
-            <span><b>Okul No:</b> Örnek: 245</span>
-            <span><b>Lichess Kullanıcı Adı:</b> Örnek: BlackKnight35</span>
-          </div>
-          <p class="join-warning">Eksik bilgiyle gönderilen takım katılım istekleri onaylanmayacaktır.</p>
-        </div>
-      </div>
-    </section>
-
-
-    <section id="basvuru-formu" class="section-shell application-section">
-      <div class="section-title left-title">
-        <p class="eyebrow">Web üzerinden ön başvuru</p>
-        <h2>Turnuva Başvuru Formu</h2>
-        <p>
-          Bu form okul içi başvuru kaydı içindir. Formu gönderdikten sonra Lichess takım sayfasına geçip
-          ayrıca <strong>Takıma Katıl</strong> isteği göndermeyi unutmayınız.
-        </p>
-      </div>
-
-      <div class="application-grid">
-        <form id="applicationForm" name="satranc-turnuva-basvuru" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="application-form">
-          <input type="hidden" name="form-name" value="satranc-turnuva-basvuru" />
-          <p class="hidden-field">
-            <label>Bu alan boş kalmalı: <input name="bot-field" /></label>
-          </p>
-
-          <div class="form-row">
-            <label for="fullName">Ad Soyad <span>*</span></label>
-            <input id="fullName" name="ad_soyad" type="text" placeholder="Örnek: Ahmet Yılmaz" required />
-          </div>
-
-          <div class="form-split">
-            <div class="form-row">
-              <label for="className">Sınıf <span>*</span></label>
-              <input id="className" name="sinif" type="text" placeholder="Örnek: 10/A" required />
-            </div>
-            <div class="form-row">
-              <label for="schoolNo">Okul No <span>*</span></label>
-              <input id="schoolNo" name="okul_no" type="text" inputmode="numeric" placeholder="Örnek: 245" required />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <label for="lichessUser">Lichess Kullanıcı Adı <span>*</span></label>
-            <input id="lichessUser" name="lichess_kullanici_adi" type="text" placeholder="Örnek: BlackKnight35" required />
-          </div>
-
-          <div class="form-row">
-            <label for="note">Not / Açıklama</label>
-            <textarea id="note" name="not" rows="3" placeholder="İsteğe bağlı kısa not yazabilirsiniz."></textarea>
-          </div>
-
-          <label class="check-row">
-            <input id="rulesAccepted" name="kurallari_kabul" type="checkbox" value="Evet" required />
-            <span>Turnuva kurallarını okudum; dış yardım, motor ve yapay zekâ kullanmayacağımı kabul ediyorum.</span>
-          </label>
-
-          <button class="btn btn-primary full" type="submit">Başvurumu Gönder</button>
-          <p id="formMessage" class="form-message" role="status"></p>
-        </form>
-
-        <aside class="application-side">
-          <h3>Başvuru sonrası ne yapılacak?</h3>
-          <ol>
-            <li>Bu formu eksiksiz doldur.</li>
-            <li>Lichess takım sayfasına git.</li>
-            <li>Takıma katılma isteği gönder.</li>
-            <li>Açıklama bölümüne aynı bilgileri yaz.</li>
-          </ol>
-          <div class="copy-card">
-            <strong>Lichess başvuru açıklamasına kopyala:</strong>
-            <pre id="copyTemplate">Ad Soyad:
+    <section class="copy-strip">
+      <strong>Lichess açıklamasına yazılacak format:</strong>
+      <pre id="formatText">Ad Soyad:
 Sınıf:
 Okul No:
 Lichess Kullanıcı Adı:</pre>
-            <button class="btn btn-secondary full" type="button" id="copyTemplateButton">Bilgi Formatını Kopyala</button>
-          </div>
-          <a class="btn btn-primary full" href="https://lichess.org/team/bozyaka-sfbal-satranc-kulubu" target="_blank" rel="noopener">
-            Lichess Takımına Git
-          </a>
-        </aside>
-      </div>
+      <button class="btn primary" type="button" id="copyFormatButton">Formatı Kopyala</button>
+      <a class="btn accent" href="https://lichess.org/team/bozyaka-sfbal-satranc-kulubu" target="_blank" rel="noopener">Takıma Git</a>
     </section>
 
-    <section id="katilim" class="section-shell two-col">
-      <div class="panel glass">
-        <p class="eyebrow">Katılım Rehberi</p>
-        <h2>Turnuvaya nasıl katılırım?</h2>
-        <ol class="steps">
-          <li><strong>Lichess hesabı oluştur.</strong><span>lichess.org üzerinden ücretsiz hesap aç.</span></li>
-          <li><strong>Okul takımına katıl.</strong><span>Aşağıdaki butonla okul takım sayfasına git.</span></li>
-          <li><strong>Başvuru bilgilerini yaz.</strong><span>Takıma katılma açıklamasına ad-soyad, sınıf, okul no ve Lichess kullanıcı adını yaz.</span></li>
-          <li><strong>Turnuva saatinde hazır ol.</strong><span>Turnuva bağlantısından giriş yap ve maçlarını oyna.</span></li>
-        </ol>
-      </div>
-
-      <div class="panel action-panel">
-        <h2>Katılım Bağlantıları</h2>
-        <p>Önce okul satranç takımına katıl. Turnuva linkleri oluşturuldukça bu sayfada yayınlanacak. Seri 11-19 Mayıs arasında her gün saat 20.00’da oynanacaktır.</p>
-        <a class="btn btn-primary full" href="https://lichess.org/team/bozyaka-sfbal-satranc-kulubu" target="_blank" rel="noopener">Okul Satranç Takımına Katıl</a>
-        <a class="btn btn-secondary full" id="tournamentButton2" href="#">Günlük Turnuva Linkleri Yakında</a>
-        <div class="mini-box">
-          <strong>Başvuru açıklamasına yazılacak bilgiler</strong>
-          <span>Ad Soyad • Sınıf • Okul No • Lichess Kullanıcı Adı</span>
-        </div>
-      </div>
-    </section>
-
-    <section id="kurallar" class="section-shell">
-      <div class="section-title">
-        <p class="eyebrow">Sportmenlik ve adil oyun</p>
-        <h2>Turnuva Kuralları</h2>
-      </div>
-      <div class="rules-grid">
-        <article><b>01</b><h3>Okul öğrencileri katılır</h3><p>Turnuva serisi okulumuz öğrencilerine yöneliktir. Takım başvurusunda ad-soyad, sınıf, okul no ve Lichess kullanıcı adı yazılmalıdır.</p></article>
-        <article><b>02</b><h3>Dış yardım yasaktır</h3><p>Motor, yapay zekâ, analiz aracı veya başka kişiden yardım almak kesinlikle yasaktır.</p></article>
-        <article><b>03</b><h3>Sportmenlik esastır</h3><p>Rakibe saygı, centilmenlik ve okul kültürüne uygun davranış beklenir.</p></article>
-        <article><b>04</b><h3>Genel puan belirleyicidir</h3><p>11-19 Mayıs arasındaki tüm turnuvalardan alınan puanların toplamı genel dereceyi belirler.</p></article>
-      <article><b>05</b><h3>Ödüller ve sertifika</h3><p>Genel sıralamada 1.ye 1000 TL, 2.ye 750 TL, 3.ye 500 TL ödül; tüm katılımcılara sertifika verilecektir.</p></article>
-        <article><b>06</b><h3>Turnuva düzeni</h3><p>Her gün saat 20.00’da başlayacak turnuvalar İsviçre sistemi ve 5+3 tempo ile oynanacaktır.</p></article>
-      </div>
-    </section>
-
-    <section id="sonuclar" class="section-shell results-pro-section">
-      <div class="results-topbar">
-        <div>
-          <p class="eyebrow">Derece Tablosu</p>
-          <h2>19 Mayıs Turnuva Serisi Sonuçları</h2>
-          <p>
-            Günlük turnuva sonuçları ve 11-19 Mayıs toplam puan genel sıralaması bu bölümden yayınlanır. Sertifikalar PDF olarak alınabilir.
-          </p>
-        </div>
-        <div class="result-actions">
-          <button class="btn btn-secondary" type="button" id="refreshResultsBtn">Sonuçları Yenile</button>
-          <button class="btn btn-primary" type="button" id="printAnnouncementBtn">İlk 3 Duyuru PDF</button>
-        </div>
-      </div>
-
-      <div class="result-tabs" role="tablist" aria-label="Turnuva sonuç sekmeleri">
-        <button class="result-tab active" type="button" data-tab="latest">Genel Sıralama</button>
-        <button class="result-tab" type="button" data-tab="archive">Günlük Turnuvalar</button>
-        <button class="result-tab" type="button" data-tab="certificate">PDF Sertifika</button>
-      </div>
-
-      <div class="result-tab-panel active" id="latestPanel">
-        <div class="lichess-result-card">
-          <div class="lichess-result-head">
-            <span id="resultDateLabel">Tarih yakında</span>
-            <strong id="resultTitleLabel">Turnuva sonuçları yakında yayınlanacaktır.</strong>
-            <small id="resultMetaLabel">Lichess sonuçları data/results.json dosyasından otomatik okunur.</small>
-          </div>
-
-          <div class="winner-stage" id="winnerStage">
-            <!-- JS ile doldurulur -->
-          </div>
-
-          <div class="standings-card-pro">
-            <div class="standings-toolbar-pro">
-              <div>
-                <strong>Genel Sıralama</strong>
-                <span id="standingsRange">0-0 / 0</span>
-              </div>
-              <div class="standings-legend">
-                <span><i class="dot win"></i> Galibiyet</span>
-                <span><i class="dot draw"></i> Beraberlik</span>
-                <span><i class="dot loss"></i> Mağlubiyet</span>
-              </div>
-            </div>
-            <div class="standings-scroll">
-              <table class="standings-table-pro">
-                <thead>
-                  <tr>
-                    <th>Sıra</th>
-                    <th>Oyuncu</th>
-                    <th>Performans</th>
-                    <th>G</th>
-                    <th>B</th>
-                    <th>M</th>
-                    <th>Puan</th>
-                    <th>Beraberlik Kırıcı</th>
-                    <th>PDF</th>
-                  </tr>
-                </thead>
-                <tbody id="standingsTableBody">
-                  <!-- JS ile doldurulur -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="winner-announcement" id="winnerAnnouncement">
-          <!-- JS ile doldurulur -->
-        </div>
-      </div>
-
-      <div class="result-tab-panel" id="archivePanel">
-        <div class="archive-grid" id="archiveGrid">
-          <!-- JS ile doldurulur -->
-        </div>
-      </div>
-
-      <div class="result-tab-panel" id="certificatePanel">
-        <div class="certificate-control-card">
-          <h3>Katılım / Başarı Sertifikası</h3>
-          <p>Turnuva serisine katılan öğrenciler için sertifika önizleyebilir, tarayıcıdan PDF olarak kaydedebilirsin.</p>
-          <div class="certificate-controls">
-            <select id="certificatePlayerSelect" aria-label="Sertifika öğrencisi seç"></select>
-            <button class="btn btn-primary" type="button" id="printCertificateBtn">Sertifikayı PDF Al</button>
-          </div>
-        </div>
-        <div class="certificate-preview" id="certificatePreview">
-          <!-- JS ile doldurulur -->
-        </div>
-      </div>
-
-    </section>
+    <footer>Bozyaka Şehit Fethi Bey Anadolu Lisesi Satranç Kulübü • 19 Mayıs Turnuva Sayfası</footer>
   </main>
-
-  <footer class="footer">
-    <img src="assets/okul-amblemi.png" alt="Okul amblemi" />
-    <p>
-      <strong>Bozyaka Şehit Fethi Bey Anadolu Lisesi Satranç Kulübü</strong><br />
-      Bu sayfa 19 Mayıs Gençlik ve Spor Bayramı satranç turnuva serisi duyuru, başvuru ve sonuç ekranı olarak hazırlanmıştır.
-    </p>
-  </footer>
 
   <script src="script.js"></script>
 </body>
