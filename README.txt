@@ -1,26 +1,18 @@
-BOZYAKA SATRANÇ - TURNUVA SÜTUNU KALDIRILMIŞ FİNAL
+Bozyaka Satranç Turnuvası - CSV Onaylı Liste Final
 
-Bu sürümde Google Sheets düzeni:
-A Tarih
-B Ad Soyad
-C Sınıf
-D Okul No
-E Lichess Kullanıcı Adı
-F Telefon
-G Açıklama
-H Kuralları Kabul
-I Kaynak
-J User Agent
+Bu sürümde:
+- Başvuru formu mevcut Apps Script URL ile Google Sheets'e kayıt gönderir.
+- Form gönderildikten sonra aynı sekmede Lichess takım sayfası açılır.
+- Katılımı Onaylananlar listesi Apps Script'ten değil, Google Sheets'te Web'de yayınlanan Onaylananlar CSV linkinden okunur.
+- Apps Script dağıtımıyla uğraşmaya gerek yoktur.
 
-Turnuva sütunu YOKTUR.
+Onaylananlar sekmesi düzeni:
+A1: Ad Soyad
+B1: Sınıf
+C1: Okul No
+D1: Lichess Kullanıcı Adı
 
-Web listesi Sheets'ten okur.
-Eski kaymış kayıtlar da okunur:
-A Tarih | B Turnuva | C Ad Soyad | D Sınıf | E Okul No | F Lichess
+Yeni öğrenciyi onaylayınca sadece Onaylananlar sekmesine ekle.
+Google Sheets'te otomatik yeniden yayınla işaretli olduğu için site kısa süre sonra güncellenir.
 
-Yani eski 5 kayıt da görünür, yeni kayıtlar da doğru sütunlara düşer.
-
-Yapılacak tek Google işlemi:
-Apps Script'te apps_script_kodu.gs içeriğini yapıştır.
-Dağıt > Dağıtımları yönet > Düzenle > Sürüm: Yeni sürüm > Dağıt.
-URL değişmez.
+CSV linki script.js içinde CONFIG.approvedCsvUrl alanındadır.

@@ -1,5 +1,10 @@
 const CONFIG = {
+  // Başvuru formunu Google Sheets'e kaydeden mevcut Apps Script URL'si.
   googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbxXN-tOiLBBbRXD0O5BxqYuu-9vk3ku5TUPPjIKFY4sX9KIEvIYknCvXJvuSiKiMw6p/exec",
+
+  // Onaylananlar sekmesinin Web'de yayınlanmış CSV bağlantısı.
+  approvedCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJ0VGCD10O_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
+
   teamUrl: "https://lichess.org/team/bozyaka-sfbal-satranc-kulubu",
   startDate: "2026-05-11T20:00:00+03:00"
 };
@@ -140,45 +145,86 @@ function escapeHtml(value) {
 }
 
 async function loadOptionalJson() {
-  // Onaylı liste artık JSON dosyasından değil, Google Sheets'ten okunur.
   approvedData = [];
   standingsData = [];
-  approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Google Sheets bağlantısı kuruluyor...</td></tr>`;
+  approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Onaylananlar listesi yükleniyor...</td></tr>`;
   renderStandings();
-  loadApprovedFromGoogleSheets();
+  await loadApprovedFromPublishedCsv();
 }
 
-function loadApprovedFromGoogleSheets() {
-  const callbackName = "onApprovedFromSheets_" + Date.now();
-  const script = document.createElement("script");
+async function loadApprovedFromPublishedCsv() {
+  try {
+    const response = await fetch(CONFIG.approvedCsvUrl + "&cache=" + Date.now(), {
+      method: "GET",
+      cache: "no-store"
+    });
 
-  window[callbackName] = function(response) {
-    try {
-      if (response && response.success && Array.isArray(response.approved)) {
-        approvedData = mergeParticipants([], response.approved);
-        renderApproved();
-        return;
-      }
-
-      approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Onaylı liste Google Sheets'ten alınamadı.</td></tr>`;
-    } finally {
-      delete window[callbackName];
-      script.remove();
+    if (!response.ok) {
+      throw new Error("CSV okunamadı");
     }
-  };
 
-  script.onerror = function() {
-    approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Google Sheets bağlantısı kurulamadı.</td></tr>`;
-    delete window[callbackName];
-    script.remove();
-  };
+    const csvText = await response.text();
+    const rows = parseCsv(csvText);
 
-  const url = new URL(CONFIG.googleAppsScriptUrl);
-  url.searchParams.set("action", "approved");
-  url.searchParams.set("callback", callbackName);
-  url.searchParams.set("_", Date.now().toString());
-  script.src = url.toString();
-  document.body.appendChild(script);
+    // İlk satır başlık: Ad Soyad | Sınıf | Okul No | Lichess Kullanıcı Adı
+    const list = rows.slice(1)
+      .map((row) => ({
+        adSoyad: row[0] || "",
+        sinif: row[1] || "",
+        okulNo: row[2] || "",
+        kullaniciAdi: row[3] || ""
+      }))
+      .filter((item) => item.adSoyad.trim() && item.kullaniciAdi.trim());
+
+    approvedData = mergeParticipants([], list);
+    renderApproved();
+  } catch (error) {
+    approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Onaylananlar sekmesi okunamadı.</td></tr>`;
+  }
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let insideQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const next = text[i + 1];
+
+    if (char === '"' && insideQuotes && next === '"') {
+      value += '"';
+      i++;
+      continue;
+    }
+
+    if (char === '"') {
+      insideQuotes = !insideQuotes;
+      continue;
+    }
+
+    if (char === ',' && !insideQuotes) {
+      row.push(value.trim());
+      value = "";
+      continue;
+    }
+
+    if ((char === '\n' || char === '\r') && !insideQuotes) {
+      if (char === '\r' && next === '\n') i++;
+      row.push(value.trim());
+      if (row.some((cell) => cell !== "")) rows.push(row);
+      row = [];
+      value = "";
+      continue;
+    }
+
+    value += char;
+  }
+
+  row.push(value.trim());
+  if (row.some((cell) => cell !== "")) rows.push(row);
+  return rows;
 }
 
 function mergeParticipants(localList, sheetList) {
