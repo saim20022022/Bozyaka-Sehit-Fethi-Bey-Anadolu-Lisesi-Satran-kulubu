@@ -1,21 +1,20 @@
-Bozyaka Satranç Turnuvası - CSV Onaylı Liste Final
+Bozyaka Satranç Turnuvası - Kesin Kontrol Sürümü
 
 Bu sürümde:
-- Başvuru formu mevcut Apps Script URL ile Google Sheets'e kayıt gönderir.
-- Form gönderildikten sonra aynı sekmede Lichess takım sayfası açılır.
-- Katılımı Onaylananlar listesi Apps Script'ten değil, Google Sheets'te Web'de yayınlanan Onaylananlar CSV linkinden okunur.
-- Apps Script dağıtımıyla uğraşmaya gerek yoktur.
+- Başvuru formu mevcut Apps Script URL'si ile Google Sheets'e kayıt gönderir.
+- Form gönderildikten sonra aynı sekmede Lichess takım sayfasına yönlendirir.
+- Katılımı Onaylananlar listesi Onaylananlar sekmesinden okunur.
+- Tek bir CSV linkine mahkum değildir. Aşağıdaki kaynaklar otomatik denenir:
+  1) Google Visualization JSONP bağlantısı
+  2) Orijinal Sheet ID üzerinden yayın CSV bağlantısı
+  3) Orijinal Sheet ID üzerinden export CSV bağlantısı
+  4) Web'de yayınla penceresindeki CSV linkinin 0/O ihtimalleri
+- Eğer Google bağlantısı o an kurulamazsa, eldeki 5 kişilik yedek liste gösterilir.
 
-Onaylananlar sekmesi düzeni:
-A1: Ad Soyad
-B1: Sınıf
-C1: Okul No
-D1: Lichess Kullanıcı Adı
+Google Sheets Onaylananlar sekmesi düzeni:
+A: Ad Soyad
+B: Sınıf
+C: Okul No
+D: Lichess Kullanıcı Adı
 
-Yeni öğrenciyi onaylayınca sadece Onaylananlar sekmesine ekle.
-Google Sheets'te otomatik yeniden yayınla işaretli olduğu için site kısa süre sonra güncellenir.
-
-CSV linki script.js içinde CONFIG.approvedCsvUrl alanındadır.
-
-
-NOT: CSV linkindeki JOVG bölümünde harf O kullanıldı; sıfır 0 değildir.
+Apps Script'e dokunmayın. Site dosyalarını GitHub'a yüklemek yeterlidir.

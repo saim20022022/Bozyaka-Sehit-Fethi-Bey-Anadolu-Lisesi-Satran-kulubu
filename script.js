@@ -1,15 +1,34 @@
 const CONFIG = {
   // Başvuru formunu Google Sheets'e kaydeden mevcut Apps Script URL'si.
+  // Form çalışıyordu, bu bağlantıya dokunulmadı.
   googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbxXN-tOiLBBbRXD0O5BxqYuu-9vk3ku5TUPPjIKFY4sX9KIEvIYknCvXJvuSiKiMw6p/exec",
 
-  // Onaylananlar sekmesinin Web'de yayınlanmış CSV bağlantısı.
-  approvedCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJOVGCD10O_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
+  // Onaylananlar sekmesi bilgileri.
+  // Bu bölüm artık tek bir hatalı CSV linkine bağlı değil.
+  sheetId: "1NzjcxucHhzUdgRBO7uzQXiykm9BiHHvLtZRod80gGvI",
+  approvedSheetGid: "1242253073",
+
+  // Web'de yayınla penceresinden alınan bağlantı farklı biçimlerde denenir.
+  // 0/O karışıklığına karşı birden fazla sağlam kaynak otomatik denenir.
+  publishedCsvCandidates: [
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJOVGCD1OO_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJOVGCD10O_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJ0VGCD1OO_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJ0VGCD10O_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv"
+  ],
 
   teamUrl: "https://lichess.org/team/bozyaka-sfbal-satranc-kulubu",
   startDate: "2026-05-11T20:00:00+03:00"
 };
 
-const APPROVED_PARTICIPANTS = [];
+const FALLBACK_APPROVED_PARTICIPANTS = [
+  { adSoyad: "İnci Nur Ekinci", sinif: "12/D", okulNo: "901", kullaniciAdi: "inclalsqw" },
+  { adSoyad: "Bekir Alperen Şulan", sinif: "9/G", okulNo: "798", kullaniciAdi: "alperensln" },
+  { adSoyad: "Deniz Aydınşen", sinif: "11/A", okulNo: "1596", kullaniciAdi: "Paylanco" },
+  { adSoyad: "Arda Güler", sinif: "11/A", okulNo: "782", kullaniciAdi: "Ardaazingo" },
+  { adSoyad: "Emir Ali Atalay", sinif: "9/B", okulNo: "290", kullaniciAdi: "EmirAli7635" }
+];
+
 const TOURNAMENT_STANDINGS = [];
 
 const form = document.getElementById("applicationForm");
@@ -21,7 +40,7 @@ const approvedSearch = document.getElementById("approvedSearch");
 const standingsSearch = document.getElementById("standingsSearch");
 const copyFormatButton = document.getElementById("copyFormatButton");
 
-let approvedData = [...APPROVED_PARTICIPANTS];
+let approvedData = [];
 let standingsData = [...TOURNAMENT_STANDINGS];
 
 form.addEventListener("submit", async (event) => {
@@ -53,8 +72,6 @@ form.addEventListener("submit", async (event) => {
     setMessage("Başvuru alındı. Lichess takım sayfasına yönlendiriliyorsunuz...", "success");
     form.reset();
 
-    // Pop-up engelleyicilere takılmamak için yeni pencere açmıyoruz.
-    // Aynı sekmede Lichess takım sayfasına yönlendiriyoruz.
     setTimeout(() => {
       window.location.href = CONFIG.teamUrl;
     }, 900);
@@ -115,7 +132,7 @@ function renderStandings() {
   const filtered = standingsData.filter((item) => matchesSearch(item, query));
 
   if (filtered.length === 0) {
-    standingsBody.innerHTML = `<tr class="empty-row"><td colspan="6">Turnuva sıralaması henüz eklenmedi.</td></tr>`;
+    standingsBody.innerHTML = `<tr class="empty-row"><td colspan="7">Turnuva sıralaması henüz eklenmedi.</td></tr>`;
     return;
   }
 
@@ -145,42 +162,143 @@ function escapeHtml(value) {
 }
 
 async function loadOptionalJson() {
-  approvedData = [];
-  standingsData = [];
   approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Onaylananlar listesi yükleniyor...</td></tr>`;
   renderStandings();
-  await loadApprovedFromPublishedCsv();
+
+  const approvedList = await loadApprovedParticipantsSafely();
+  approvedData = approvedList.length > 0
+    ? mergeParticipants([], approvedList)
+    : mergeParticipants([], FALLBACK_APPROVED_PARTICIPANTS);
+
+  renderApproved();
 }
 
-async function loadApprovedFromPublishedCsv() {
-  try {
-    const response = await fetch(CONFIG.approvedCsvUrl + "&cache=" + Date.now(), {
-      method: "GET",
-      cache: "no-store"
-    });
+async function loadApprovedParticipantsSafely() {
+  const loaders = [
+    loadApprovedWithGoogleVisualization,
+    loadApprovedFromOriginalPubCsv,
+    loadApprovedFromOriginalExportCsv,
+    loadApprovedFromPublishedCsvCandidates
+  ];
 
-    if (!response.ok) {
-      throw new Error("CSV okunamadı");
+  for (const loader of loaders) {
+    try {
+      const list = await loader();
+      if (Array.isArray(list) && list.length > 0) {
+        console.info("Onaylananlar listesi yüklendi:", loader.name, list.length);
+        return list;
+      }
+    } catch (error) {
+      console.warn("Onaylananlar kaynağı denenemedi:", loader.name, error);
+    }
+  }
+
+  console.warn("Google Sheets bağlantısı kurulamadı. Yedek liste gösteriliyor.");
+  return [];
+}
+
+function loadApprovedWithGoogleVisualization() {
+  return new Promise((resolve, reject) => {
+    const callbackName = `__bozyakaSheetCallback_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+    const script = document.createElement("script");
+    const timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("Google Visualization zaman aşımı"));
+    }, 9000);
+
+    function cleanup() {
+      window.clearTimeout(timeout);
+      if (script.parentNode) script.parentNode.removeChild(script);
+      try { delete window[callbackName]; } catch { window[callbackName] = undefined; }
     }
 
-    const csvText = await response.text();
-    const rows = parseCsv(csvText);
+    window[callbackName] = (response) => {
+      try {
+        cleanup();
 
-    // İlk satır başlık: Ad Soyad | Sınıf | Okul No | Lichess Kullanıcı Adı
-    const list = rows.slice(1)
-      .map((row) => ({
-        adSoyad: row[0] || "",
-        sinif: row[1] || "",
-        okulNo: row[2] || "",
-        kullaniciAdi: row[3] || ""
-      }))
-      .filter((item) => item.adSoyad.trim() && item.kullaniciAdi.trim());
+        if (!response || response.status === "error") {
+          reject(new Error(response?.errors?.[0]?.detailed_message || "Google Visualization hata verdi"));
+          return;
+        }
 
-    approvedData = mergeParticipants([], list);
-    renderApproved();
-  } catch (error) {
-    approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Onaylananlar sekmesi okunamadı.</td></tr>`;
+        const rows = gvizResponseToRows(response);
+        resolve(rowsToApprovedList(rows));
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    const query = encodeURIComponent("select A,B,C,D");
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Google Visualization script yüklenemedi"));
+    };
+    script.src = `https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?gid=${CONFIG.approvedSheetGid}&headers=1&tq=${query}&tqx=out:json;responseHandler:${callbackName}&cache=${Date.now()}`;
+    document.head.appendChild(script);
+  });
+}
+
+function gvizResponseToRows(response) {
+  const table = response.table;
+  if (!table || !Array.isArray(table.rows)) return [];
+
+  const header = (table.cols || []).map((col) => col.label || col.id || "");
+  const body = table.rows.map((row) => (row.c || []).map((cell) => {
+    if (!cell) return "";
+    return cell.f ?? cell.v ?? "";
+  }));
+
+  return [header, ...body];
+}
+
+async function loadApprovedFromOriginalPubCsv() {
+  const url = `https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/pub?gid=${CONFIG.approvedSheetGid}&single=true&output=csv`;
+  return loadApprovedFromCsvUrl(url);
+}
+
+async function loadApprovedFromOriginalExportCsv() {
+  const url = `https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/export?format=csv&gid=${CONFIG.approvedSheetGid}`;
+  return loadApprovedFromCsvUrl(url);
+}
+
+async function loadApprovedFromPublishedCsvCandidates() {
+  for (const url of CONFIG.publishedCsvCandidates) {
+    try {
+      const list = await loadApprovedFromCsvUrl(url);
+      if (list.length > 0) return list;
+    } catch (error) {
+      console.warn("CSV aday linki çalışmadı:", url, error);
+    }
   }
+  return [];
+}
+
+async function loadApprovedFromCsvUrl(url) {
+  const separator = url.includes("?") ? "&" : "?";
+  const response = await fetch(`${url}${separator}cache=${Date.now()}`, {
+    method: "GET",
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`CSV okunamadı: ${response.status}`);
+  }
+
+  const csvText = await response.text();
+  return rowsToApprovedList(parseCsv(csvText));
+}
+
+function rowsToApprovedList(rows) {
+  if (!Array.isArray(rows) || rows.length < 2) return [];
+
+  return rows.slice(1)
+    .map((row) => ({
+      adSoyad: row[0] || "",
+      sinif: row[1] || "",
+      okulNo: row[2] || "",
+      kullaniciAdi: row[3] || ""
+    }))
+    .filter((item) => item.adSoyad.trim() && item.kullaniciAdi.trim());
 }
 
 function parseCsv(text) {
@@ -210,8 +328,8 @@ function parseCsv(text) {
       continue;
     }
 
-    if ((char === '\n' || char === '\r') && !insideQuotes) {
-      if (char === '\r' && next === '\n') i++;
+    if ((char === "\n" || char === "\r") && !insideQuotes) {
+      if (char === "\r" && next === "\n") i++;
       row.push(value.trim());
       if (row.some((cell) => cell !== "")) rows.push(row);
       row = [];
