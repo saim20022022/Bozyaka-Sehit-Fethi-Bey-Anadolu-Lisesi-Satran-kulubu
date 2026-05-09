@@ -1,19 +1,15 @@
 const SHEET_ID = "1NzjcxucHhzUdgRBO7uzQXiykm9BiHHvLtZRod80gGvI";
 const APPLICATION_SHEET_NAME = "Başvurular";
-const APPROVED_SHEET_NAME = "Onaylananlar";
 
 function doPost(e) {
   try {
-    const sheet = SpreadsheetApp
-      .openById(SHEET_ID)
-      .getSheetByName(APPLICATION_SHEET_NAME);
+    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(APPLICATION_SHEET_NAME);
 
     if (!sheet) {
-      return createJsonResponse({
-        success: false,
-        message: "Başvurular sayfası bulunamadı."
-      });
+      return createResponse({ success: false, message: "Başvurular sayfası bulunamadı." });
     }
+
+    ensureHeaders(sheet);
 
     const data = parseRequestData(e);
 
@@ -29,13 +25,13 @@ function doPost(e) {
     const userAgent = cleanText(data.user_agent);
 
     if (!adSoyad || !sinif || !okulNo || !lichess) {
-      return createJsonResponse({
+      return createResponse({
         success: false,
         message: "Ad Soyad, Sınıf, Okul No ve Lichess kullanıcı adı zorunludur."
       });
     }
 
-    // Yeni düzen: Turnuva sütunu YOK.
+    // KESİN DÜZEN: Turnuva sütunu YOK.
     // A Tarih | B Ad Soyad | C Sınıf | D Okul No | E Lichess Kullanıcı Adı | F Telefon | G Açıklama | H Kuralları Kabul | I Kaynak | J User Agent
     sheet.appendRow([
       tarih,
@@ -50,119 +46,114 @@ function doPost(e) {
       userAgent
     ]);
 
-    return createJsonResponse({
-      success: true,
-      message: "Başvuru başarıyla kaydedildi."
-    });
+    return createResponse({ success: true, message: "Başvuru başarıyla kaydedildi." });
 
   } catch (error) {
-    return createJsonResponse({
-      success: false,
-      message: "Kayıt sırasında hata oluştu: " + error.message
-    });
+    return createResponse({ success: false, message: "Kayıt sırasında hata oluştu: " + error.message });
   }
 }
 
 function doGet(e) {
-  const action = e && e.parameter ? cleanText(e.parameter.action) : "";
-  const callback = e && e.parameter ? cleanCallbackName(e.parameter.callback) : "";
+  try {
+    const action = e && e.parameter ? cleanText(e.parameter.action) : "";
+    const callback = e && e.parameter ? cleanCallbackName(e.parameter.callback) : "";
 
-  if (action === "approved") {
-    const payload = {
-      success: true,
-      approved: getApprovedParticipants()
-    };
-
-    if (callback) {
-      return createJsonpResponse(callback, payload);
+    if (action === "approved") {
+      const payload = {
+        success: true,
+        approved: getParticipantsFromSheet()
+      };
+      return callback ? createJsonpResponse(callback, payload) : createResponse(payload);
     }
 
-    return createJsonResponse(payload);
+    const payload = {
+      success: true,
+      message: "Bozyaka Satranç Başvuru Sistemi aktif. Turnuva sütunu yok."
+    };
+    return callback ? createJsonpResponse(callback, payload) : createResponse(payload);
+
+  } catch (error) {
+    const payload = { success: false, message: "Liste okunamadı: " + error.message };
+    const callback = e && e.parameter ? cleanCallbackName(e.parameter.callback) : "";
+    return callback ? createJsonpResponse(callback, payload) : createResponse(payload);
   }
-
-  const statusPayload = {
-    success: true,
-    message: "Bozyaka Satranç Başvuru Sistemi aktif."
-  };
-
-  if (callback) {
-    return createJsonpResponse(callback, statusPayload);
-  }
-
-  return createJsonResponse(statusPayload);
 }
 
-function getApprovedParticipants() {
-  const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
-
-  const manualApproved = readApprovedSheet(spreadsheet);
-  const applications = readApplicationsSheet(spreadsheet);
-
-  return uniqueParticipants(manualApproved.concat(applications));
-}
-
-function readApprovedSheet(spreadsheet) {
-  const sheet = spreadsheet.getSheetByName(APPROVED_SHEET_NAME);
+function getParticipantsFromSheet() {
+  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(APPLICATION_SHEET_NAME);
   if (!sheet) return [];
+
+  ensureHeaders(sheet);
 
   const values = sheet.getDataRange().getValues();
   if (values.length < 2) return [];
 
-  return values.slice(1)
-    .map(function(row) {
-      return {
-        adSoyad: row[0],
-        sinif: row[1],
-        okulNo: row[2],
-        kullaniciAdi: row[3]
+  const participants = [];
+
+  values.slice(1).forEach(function(row) {
+    if (isEmptyRow(row)) return;
+
+    // Doğru yeni düzen:
+    // A Tarih | B Ad Soyad | C Sınıf | D Okul No | E Lichess Kullanıcı Adı
+    let item = {
+      adSoyad: row[1],
+      sinif: row[2],
+      okulNo: row[3],
+      kullaniciAdi: row[4]
+    };
+
+    // Eski kaymış düzen desteği:
+    // A Tarih | B Turnuva | C Ad Soyad | D Sınıf | E Okul No | F Lichess Kullanıcı Adı
+    const b = cleanText(row[1]).toLocaleLowerCase("tr-TR");
+    const bIsTurnuva = b.includes("turnuva") || b.includes("bozyaka") || b.includes("19 mayıs") || b.includes("satranç");
+
+    if (bIsTurnuva) {
+      item = {
+        adSoyad: row[2],
+        sinif: row[3],
+        okulNo: row[4],
+        kullaniciAdi: row[5]
       };
-    })
-    .filter(isValidParticipant)
-    .map(cleanParticipant);
+    }
+
+    if (isValidParticipant(item)) {
+      participants.push(cleanParticipant(item));
+    }
+  });
+
+  return uniqueParticipants(participants);
 }
 
-function readApplicationsSheet(spreadsheet) {
-  const sheet = spreadsheet.getSheetByName(APPLICATION_SHEET_NAME);
-  if (!sheet) return [];
+function ensureHeaders(sheet) {
+  const headers = [
+    "Tarih",
+    "Ad Soyad",
+    "Sınıf",
+    "Okul No",
+    "Lichess Kullanıcı Adı",
+    "Telefon",
+    "Açıklama",
+    "Kuralları Kabul",
+    "Kaynak",
+    "User Agent"
+  ];
 
-  const values = sheet.getDataRange().getValues();
-  if (values.length < 2) return [];
+  const current = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+  const needsFix = headers.some(function(header, index) {
+    return cleanText(current[index]) !== header;
+  });
 
-  return values.slice(1)
-    .map(function(row) {
-      // Yeni doğru düzen:
-      // A Tarih | B Ad Soyad | C Sınıf | D Okul No | E Lichess Kullanıcı Adı
-      let adSoyad = row[1];
-      let sinif = row[2];
-      let okulNo = row[3];
-      let kullaniciAdi = row[4];
+  if (needsFix) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  }
+}
 
-      // Eski hatalı düzen desteği:
-      // A Tarih | B Turnuva | C Ad Soyad | D Sınıf | E Okul No | F Lichess Kullanıcı Adı
-      // B sütununda turnuva adı varsa otomatik eski düzen olarak okur.
-      const bCell = cleanText(row[1]).toLocaleLowerCase("tr-TR");
-      const looksLikeOldTurnuvaColumn = bCell.includes("turnuva") || bCell.includes("bozyaka şfba");
-
-      if (looksLikeOldTurnuvaColumn) {
-        adSoyad = row[2];
-        sinif = row[3];
-        okulNo = row[4];
-        kullaniciAdi = row[5];
-      }
-
-      return {
-        adSoyad: adSoyad,
-        sinif: sinif,
-        okulNo: okulNo,
-        kullaniciAdi: kullaniciAdi
-      };
-    })
-    .filter(isValidParticipant)
-    .map(cleanParticipant);
+function isEmptyRow(row) {
+  return !row || row.every(function(cell) { return !cleanText(cell); });
 }
 
 function isValidParticipant(item) {
-  return item && cleanText(item.adSoyad) && cleanText(item.sinif) && cleanText(item.kullaniciAdi);
+  return item && cleanText(item.adSoyad) && cleanText(item.sinif) && cleanText(item.okulNo) && cleanText(item.kullaniciAdi);
 }
 
 function cleanParticipant(item) {
@@ -180,7 +171,7 @@ function uniqueParticipants(list) {
 
   list.forEach(function(item) {
     const clean = cleanParticipant(item);
-    const key = normalizeHeader(clean.kullaniciAdi + "_" + clean.okulNo);
+    const key = normalize(clean.kullaniciAdi + "_" + clean.okulNo);
     if (!key || seen[key]) return;
     seen[key] = true;
     result.push(clean);
@@ -230,7 +221,7 @@ function cleanText(value) {
   return String(value).trim().replace(/</g, "").replace(/>/g, "");
 }
 
-function normalizeHeader(value) {
+function normalize(value) {
   return cleanText(value)
     .toLocaleLowerCase("tr-TR")
     .replace(/ı/g, "i")
@@ -243,14 +234,12 @@ function normalizeHeader(value) {
 }
 
 function cleanCallbackName(value) {
-  const callback = cleanText(value);
-  if (/^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(callback)) {
-    return callback;
-  }
-  return "";
+  const name = cleanText(value);
+  if (!name) return "";
+  return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name) ? name : "";
 }
 
-function createJsonResponse(data) {
+function createResponse(data) {
   return ContentService
     .createTextOutput(JSON.stringify(data))
     .setMimeType(ContentService.MimeType.JSON);

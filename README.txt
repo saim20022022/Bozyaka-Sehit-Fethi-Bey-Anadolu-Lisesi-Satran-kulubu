@@ -1,31 +1,26 @@
-BOZYAKA ŞFBA 19 MAYIS SATRANÇ TURNUVASI - SHEETS OKUYAN FINAL
+BOZYAKA SATRANÇ - TURNUVA SÜTUNU KALDIRILMIŞ FİNAL
 
-Bu sürümde:
-- Başvuru formu Google Sheets'e kayıt gönderir.
-- Başvuru başarıyla gönderildikten sonra aynı sekmede Lichess takım sayfası açılır.
-- Katılımı Onaylananlar listesi artık data/onaylananlar.json dosyasından DEĞİL Google Sheets'ten canlı okunur.
-- Google Sheets'e webden gelen kayıtlar da, elle yazılan kayıtlar da webde görünür.
-- Zorunlu alanlar: Ad Soyad, Sınıf, Okul No, Lichess Kullanıcı Adı.
-- Telefon ve Açıklama isteğe bağlıdır.
-- Yönetici/Sheets butonu yoktur.
-- Gereksiz Lichess/Takım/Turnuva butonları yoktur.
+Bu sürümde Google Sheets düzeni:
+A Tarih
+B Ad Soyad
+C Sınıf
+D Okul No
+E Lichess Kullanıcı Adı
+F Telefon
+G Açıklama
+H Kuralları Kabul
+I Kaynak
+J User Agent
 
-Google Sheets sütun düzeni:
-A: Tarih
-B: Ad Soyad
-C: Sınıf
-D: Okul No
-E: Lichess Kullanıcı Adı
-F: Telefon
-G: Açıklama
-H: Kuralları Kabul
-I: Kaynak
-J: User Agent
+Turnuva sütunu YOKTUR.
 
-Elle kayıt eklerken B, C, D, E sütunlarını doldurman yeterlidir.
-Webde sadece şu bilgiler gösterilir:
-Ad Soyad | Sınıf | Okul No | Lichess Kullanıcı Adı
+Web listesi Sheets'ten okur.
+Eski kaymış kayıtlar da okunur:
+A Tarih | B Turnuva | C Ad Soyad | D Sınıf | E Okul No | F Lichess
 
-ÖNEMLİ:
-Webin Sheets'ten kayıt okuyabilmesi için apps_script_kodu.gs içeriği Google Apps Script'e bir kez yapıştırılıp mevcut dağıtımda YENİ SÜRÜM olarak dağıtılmalıdır.
+Yani eski 5 kayıt da görünür, yeni kayıtlar da doğru sütunlara düşer.
+
+Yapılacak tek Google işlemi:
+Apps Script'te apps_script_kodu.gs içeriğini yapıştır.
+Dağıt > Dağıtımları yönet > Düzenle > Sürüm: Yeni sürüm > Dağıt.
 URL değişmez.
