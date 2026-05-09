@@ -16,3 +16,6 @@ Yeni öğrenciyi onaylayınca sadece Onaylananlar sekmesine ekle.
 Google Sheets'te otomatik yeniden yayınla işaretli olduğu için site kısa süre sonra güncellenir.
 
 CSV linki script.js içinde CONFIG.approvedCsvUrl alanındadır.
+
+
+NOT: CSV linkindeki JOVG bölümünde harf O kullanıldı; sıfır 0 değildir.

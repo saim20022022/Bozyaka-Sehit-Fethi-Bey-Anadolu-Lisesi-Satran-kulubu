@@ -3,7 +3,7 @@ const CONFIG = {
   googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbxXN-tOiLBBbRXD0O5BxqYuu-9vk3ku5TUPPjIKFY4sX9KIEvIYknCvXJvuSiKiMw6p/exec",
 
   // Onaylananlar sekmesinin Web'de yayınlanmış CSV bağlantısı.
-  approvedCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJ0VGCD10O_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
+  approvedCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSu_K_a57QotsKRI7TfAmvHKKeZp3ybJOVGCD10O_WTi6QetKRmzuIk787FJR9WQixiNWAUCoDGdo5K/pub?gid=1242253073&single=true&output=csv",
 
   teamUrl: "https://lichess.org/team/bozyaka-sfbal-satranc-kulubu",
   startDate: "2026-05-11T20:00:00+03:00"
