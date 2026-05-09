@@ -1,7 +1,6 @@
 const CONFIG = {
   googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbxXN-tOiLBBbRXD0O5BxqYuu-9vk3ku5TUPPjIKFY4sX9KIEvIYknCvXJvuSiKiMw6p/exec",
   teamUrl: "https://lichess.org/team/bozyaka-sfbal-satranc-kulubu",
-  tournamentName: "Bozyaka ŞFBA 19 Mayıs Satranç Turnuvası",
   startDate: "2026-05-11T20:00:00+03:00"
 };
 
@@ -26,7 +25,6 @@ form.addEventListener("submit", async (event) => {
   const formData = new FormData(form);
   const payload = new URLSearchParams();
 
-  payload.append("turnuva", CONFIG.tournamentName);
   payload.append("kaynak", window.location.href);
   payload.append("user_agent", navigator.userAgent);
 
@@ -142,30 +140,11 @@ function escapeHtml(value) {
 }
 
 async function loadOptionalJson() {
-  // 1) Eski 3 onaylı öğrenci için yerel JSON yedek liste olarak kalır.
-  try {
-    const [approvedResponse, standingsResponse] = await Promise.all([
-      fetch("data/onaylananlar.json", { cache: "no-store" }),
-      fetch("data/siralama.json", { cache: "no-store" })
-    ]);
-
-    if (approvedResponse.ok) {
-      const approvedJson = await approvedResponse.json();
-      if (Array.isArray(approvedJson)) approvedData = approvedJson;
-    }
-
-    if (standingsResponse.ok) {
-      const standingsJson = await standingsResponse.json();
-      if (Array.isArray(standingsJson)) standingsData = standingsJson;
-    }
-  } catch (error) {
-    // Yerel dosya olarak açılırsa JSON yüklenmeyebilir. Sheets bağlantısı yine denenir.
-  }
-
-  renderApproved();
+  // Onaylı liste artık JSON dosyasından değil, Google Sheets'ten okunur.
+  approvedData = [];
+  standingsData = [];
+  approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Google Sheets bağlantısı kuruluyor...</td></tr>`;
   renderStandings();
-
-  // 2) Asıl canlı liste Google Sheets'ten gelir.
   loadApprovedFromGoogleSheets();
 }
 
@@ -176,9 +155,12 @@ function loadApprovedFromGoogleSheets() {
   window[callbackName] = function(response) {
     try {
       if (response && response.success && Array.isArray(response.approved)) {
-        approvedData = mergeParticipants(approvedData, response.approved);
+        approvedData = mergeParticipants([], response.approved);
         renderApproved();
+        return;
       }
+
+      approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Onaylı liste Google Sheets'ten alınamadı.</td></tr>`;
     } finally {
       delete window[callbackName];
       script.remove();
@@ -186,6 +168,7 @@ function loadApprovedFromGoogleSheets() {
   };
 
   script.onerror = function() {
+    approvedBody.innerHTML = `<tr class="empty-row"><td colspan="4">Google Sheets bağlantısı kurulamadı.</td></tr>`;
     delete window[callbackName];
     script.remove();
   };
@@ -211,7 +194,7 @@ function mergeParticipants(localList, sheetList) {
 
     if (!cleanItem.adSoyad || !cleanItem.kullaniciAdi) return;
 
-    const key = normalize(`${cleanItem.kullaniciAdi}|${cleanItem.okulNo}|${cleanItem.adSoyad}`);
+    const key = normalize(`${cleanItem.kullaniciAdi}|${cleanItem.okulNo}`);
     map.set(key, cleanItem);
   });
 

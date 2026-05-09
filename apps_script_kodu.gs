@@ -18,7 +18,6 @@ function doPost(e) {
     const data = parseRequestData(e);
 
     const tarih = new Date();
-    const turnuva = cleanText(data.turnuva);
     const adSoyad = cleanText(data.ad_soyad || data.adSoyad);
     const sinif = cleanText(data.sinif);
     const okulNo = cleanText(data.okul_no || data.okulNo);
@@ -36,9 +35,10 @@ function doPost(e) {
       });
     }
 
+    // Yeni düzen: Turnuva sütunu YOK.
+    // A Tarih | B Ad Soyad | C Sınıf | D Okul No | E Lichess Kullanıcı Adı | F Telefon | G Açıklama | H Kuralları Kabul | I Kaynak | J User Agent
     sheet.appendRow([
       tarih,
-      turnuva,
       adSoyad,
       sinif,
       okulNo,
@@ -94,18 +94,11 @@ function doGet(e) {
 
 function getApprovedParticipants() {
   const spreadsheet = SpreadsheetApp.openById(SHEET_ID);
-  const approvedFromManualSheet = readApprovedSheet(spreadsheet);
 
-  // Eğer Onaylananlar sekmesinde veri varsa asıl kontrol orasıdır.
-  // Böylece manuel olarak onay verdiğin öğrencileri sadece bu sekmede tutabilirsin.
-  if (approvedFromManualSheet.length > 0) {
-    return uniqueParticipants(approvedFromManualSheet);
-  }
+  const manualApproved = readApprovedSheet(spreadsheet);
+  const applications = readApplicationsSheet(spreadsheet);
 
-  // Onaylananlar sekmesi boşsa Başvurular sekmesinden okur.
-  // Eğer Başvurular'da "Onay Durumu" sütunu varsa sadece ONAYLANDI/KABUL/EVET/TAMAM yazanlar görünür.
-  // Eğer bu sütun yoksa, mevcut sistemle uyumlu olmak için Başvurular'daki tüm kayıtlar görünür.
-  return uniqueParticipants(readApplicationsSheet(spreadsheet));
+  return uniqueParticipants(manualApproved.concat(applications));
 }
 
 function readApprovedSheet(spreadsheet) {
@@ -115,15 +108,13 @@ function readApprovedSheet(spreadsheet) {
   const values = sheet.getDataRange().getValues();
   if (values.length < 2) return [];
 
-  const headers = values[0].map(normalizeHeader);
-
   return values.slice(1)
     .map(function(row) {
       return {
-        adSoyad: getByHeaderOrIndex(row, headers, ["adsoyad", "ad", "ogrenci"], 0),
-        sinif: getByHeaderOrIndex(row, headers, ["sinif", "sınıf"], 1),
-        okulNo: getByHeaderOrIndex(row, headers, ["okulno", "no", "ogrencino"], 2),
-        kullaniciAdi: getByHeaderOrIndex(row, headers, ["lichesskullaniciadi", "kullaniciadi", "username", "lichess"], 3)
+        adSoyad: row[0],
+        sinif: row[1],
+        okulNo: row[2],
+        kullaniciAdi: row[3]
       };
     })
     .filter(isValidParticipant)
@@ -137,62 +128,41 @@ function readApplicationsSheet(spreadsheet) {
   const values = sheet.getDataRange().getValues();
   if (values.length < 2) return [];
 
-  const headers = values[0].map(normalizeHeader);
-  const approvalIndex = findHeaderIndex(headers, ["onaydurumu", "durum", "onay", "katilimdurumu", "katılımdurumu"]);
-
   return values.slice(1)
-    .filter(function(row) {
-      if (approvalIndex === -1) return true;
-      return isApprovedValue(row[approvalIndex]);
-    })
     .map(function(row) {
+      // Yeni doğru düzen:
+      // A Tarih | B Ad Soyad | C Sınıf | D Okul No | E Lichess Kullanıcı Adı
+      let adSoyad = row[1];
+      let sinif = row[2];
+      let okulNo = row[3];
+      let kullaniciAdi = row[4];
+
+      // Eski hatalı düzen desteği:
+      // A Tarih | B Turnuva | C Ad Soyad | D Sınıf | E Okul No | F Lichess Kullanıcı Adı
+      // B sütununda turnuva adı varsa otomatik eski düzen olarak okur.
+      const bCell = cleanText(row[1]).toLocaleLowerCase("tr-TR");
+      const looksLikeOldTurnuvaColumn = bCell.includes("turnuva") || bCell.includes("bozyaka şfba");
+
+      if (looksLikeOldTurnuvaColumn) {
+        adSoyad = row[2];
+        sinif = row[3];
+        okulNo = row[4];
+        kullaniciAdi = row[5];
+      }
+
       return {
-        // Başvurular sekmesinde mevcut sistemin doğru kolon sırası:
-        // Tarih | Turnuva | Ad Soyad | Sınıf | Okul No | Lichess | Telefon | Açıklama | ...
-        adSoyad: getByHeaderOrIndex(row, headers, ["adsoyad", "ad", "ogrenci"], 2),
-        sinif: getByHeaderOrIndex(row, headers, ["sinif", "sınıf"], 3),
-        okulNo: getByHeaderOrIndex(row, headers, ["okulno", "no", "ogrencino"], 4),
-        kullaniciAdi: getByHeaderOrIndex(row, headers, ["lichesskullaniciadi", "kullaniciadi", "username", "lichess"], 5)
+        adSoyad: adSoyad,
+        sinif: sinif,
+        okulNo: okulNo,
+        kullaniciAdi: kullaniciAdi
       };
     })
     .filter(isValidParticipant)
     .map(cleanParticipant);
 }
 
-function getByHeaderOrIndex(row, headers, acceptedHeaders, fallbackIndex) {
-  const index = findHeaderIndex(headers, acceptedHeaders);
-  const value = index >= 0 ? row[index] : row[fallbackIndex];
-  return cleanText(value);
-}
-
-function findHeaderIndex(headers, acceptedHeaders) {
-  for (let i = 0; i < headers.length; i++) {
-    if (acceptedHeaders.indexOf(headers[i]) !== -1) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-function normalizeHeader(value) {
-  return cleanText(value)
-    .toLocaleLowerCase("tr-TR")
-    .replace(/ı/g, "i")
-    .replace(/ğ/g, "g")
-    .replace(/ü/g, "u")
-    .replace(/ş/g, "s")
-    .replace(/ö/g, "o")
-    .replace(/ç/g, "c")
-    .replace(/[^a-z0-9]/g, "");
-}
-
-function isApprovedValue(value) {
-  const text = normalizeHeader(value);
-  return ["onaylandi", "onay", "evet", "kabul", "tamam", "ok", "true", "1"].indexOf(text) !== -1;
-}
-
 function isValidParticipant(item) {
-  return item && item.adSoyad && item.sinif && item.kullaniciAdi;
+  return item && cleanText(item.adSoyad) && cleanText(item.sinif) && cleanText(item.kullaniciAdi);
 }
 
 function cleanParticipant(item) {
@@ -210,7 +180,7 @@ function uniqueParticipants(list) {
 
   list.forEach(function(item) {
     const clean = cleanParticipant(item);
-    const key = normalizeHeader(clean.kullaniciAdi + "_" + clean.okulNo + "_" + clean.adSoyad);
+    const key = normalizeHeader(clean.kullaniciAdi + "_" + clean.okulNo);
     if (!key || seen[key]) return;
     seen[key] = true;
     result.push(clean);
@@ -258,6 +228,18 @@ function parseFormEncoded(text) {
 function cleanText(value) {
   if (value === undefined || value === null) return "";
   return String(value).trim().replace(/</g, "").replace(/>/g, "");
+}
+
+function normalizeHeader(value) {
+  return cleanText(value)
+    .toLocaleLowerCase("tr-TR")
+    .replace(/ı/g, "i")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c")
+    .replace(/[^a-z0-9]/g, "");
 }
 
 function cleanCallbackName(value) {

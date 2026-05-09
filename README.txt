@@ -1,30 +1,31 @@
-BOZYAKA ŞFBA SATRANÇ TURNUVASI - SHEETS KONTROLLÜ ONAYLI LİSTE
+BOZYAKA ŞFBA 19 MAYIS SATRANÇ TURNUVASI - SHEETS OKUYAN FINAL
 
-Bu sürümde webdeki Katılımı Onaylananlar listesi artık sadece data/onaylananlar.json'a bağlı değildir.
-Liste Google Sheets'ten canlı olarak okunur.
+Bu sürümde:
+- Başvuru formu Google Sheets'e kayıt gönderir.
+- Başvuru başarıyla gönderildikten sonra aynı sekmede Lichess takım sayfası açılır.
+- Katılımı Onaylananlar listesi artık data/onaylananlar.json dosyasından DEĞİL Google Sheets'ten canlı okunur.
+- Google Sheets'e webden gelen kayıtlar da, elle yazılan kayıtlar da webde görünür.
+- Zorunlu alanlar: Ad Soyad, Sınıf, Okul No, Lichess Kullanıcı Adı.
+- Telefon ve Açıklama isteğe bağlıdır.
+- Yönetici/Sheets butonu yoktur.
+- Gereksiz Lichess/Takım/Turnuva butonları yoktur.
 
-ÇALIŞMA MANTIĞI
-1. Öğrenci web formundan başvurur.
-2. Başvuru Google Sheets > Başvurular sayfasına düşer.
-3. Web sitesi Katılımı Onaylananlar listesini Apps Script üzerinden Google Sheets'ten çeker.
-4. Lichess'te onay verdiğin öğrenciler webde görünebilir.
+Google Sheets sütun düzeni:
+A: Tarih
+B: Ad Soyad
+C: Sınıf
+D: Okul No
+E: Lichess Kullanıcı Adı
+F: Telefon
+G: Açıklama
+H: Kuralları Kabul
+I: Kaynak
+J: User Agent
 
-EN KOLAY KULLANIM
-A) Eğer tüm Başvurular sayfasındaki öğrenciler webde görünsün istiyorsan hiçbir şey yapma.
-   Onaylananlar sekmesi yoksa veya boşsa, sistem Başvurular sayfasındaki kayıtları listeler.
+Elle kayıt eklerken B, C, D, E sütunlarını doldurman yeterlidir.
+Webde sadece şu bilgiler gösterilir:
+Ad Soyad | Sınıf | Okul No | Lichess Kullanıcı Adı
 
-B) Sadece onay verdiğin öğrenciler görünsün istiyorsan Google Sheets'te yeni bir sekme aç:
-   Sekme adı: Onaylananlar
-   Başlıklar: Ad Soyad | Sınıf | Okul No | Lichess Kullanıcı Adı
-   Bu sekmeye kimi yazarsan webde sadece onlar görünür.
-
-C) Alternatif olarak Başvurular sayfasına Onay Durumu sütunu ekleyebilirsin.
-   Onay Durumu hücresine ONAYLANDI yazılanlar görünür.
-   Kabul edilen değerler: ONAYLANDI, ONAY, EVET, KABUL, TAMAM, OK
-
-ÖNEMLİ
-Bu sürümde Apps Script kodu güncellendi.
-Google Apps Script ekranında apps_script_kodu.gs içeriğini yapıştırıp mevcut dağıtımı Yeni Sürüm olarak dağıtmalısın.
-URL değişmeyecek.
-
-Web dosyalarını GitHub/Netlify'a yüklemen yeterlidir.
+ÖNEMLİ:
+Webin Sheets'ten kayıt okuyabilmesi için apps_script_kodu.gs içeriği Google Apps Script'e bir kez yapıştırılıp mevcut dağıtımda YENİ SÜRÜM olarak dağıtılmalıdır.
+URL değişmez.
