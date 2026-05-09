@@ -123,6 +123,7 @@ function renderStandings() {
         <td><span class="rank-pill">${escapeHtml(rank)}</span></td>
         <td>${escapeHtml(item.adSoyad)}</td>
         <td>${escapeHtml(item.sinif)}</td>
+        <td>${escapeHtml(item.okulNo || "")}</td>
         <td>${escapeHtml(item.kullaniciAdi)}</td>
         <td>${escapeHtml(item.puan)}</td>
         <td>${escapeHtml(item.durum)}</td>
@@ -141,6 +142,7 @@ function escapeHtml(value) {
 }
 
 async function loadOptionalJson() {
+  // 1) Eski 3 onaylı öğrenci için yerel JSON yedek liste olarak kalır.
   try {
     const [approvedResponse, standingsResponse] = await Promise.all([
       fetch("data/onaylananlar.json", { cache: "no-store" }),
@@ -157,11 +159,63 @@ async function loadOptionalJson() {
       if (Array.isArray(standingsJson)) standingsData = standingsJson;
     }
   } catch (error) {
-    // Yerel dosya olarak açılırsa JSON yüklenmeyebilir. Bu durumda boş listeler gösterilir.
+    // Yerel dosya olarak açılırsa JSON yüklenmeyebilir. Sheets bağlantısı yine denenir.
   }
 
   renderApproved();
   renderStandings();
+
+  // 2) Asıl canlı liste Google Sheets'ten gelir.
+  loadApprovedFromGoogleSheets();
+}
+
+function loadApprovedFromGoogleSheets() {
+  const callbackName = "onApprovedFromSheets_" + Date.now();
+  const script = document.createElement("script");
+
+  window[callbackName] = function(response) {
+    try {
+      if (response && response.success && Array.isArray(response.approved)) {
+        approvedData = mergeParticipants(approvedData, response.approved);
+        renderApproved();
+      }
+    } finally {
+      delete window[callbackName];
+      script.remove();
+    }
+  };
+
+  script.onerror = function() {
+    delete window[callbackName];
+    script.remove();
+  };
+
+  const url = new URL(CONFIG.googleAppsScriptUrl);
+  url.searchParams.set("action", "approved");
+  url.searchParams.set("callback", callbackName);
+  url.searchParams.set("_", Date.now().toString());
+  script.src = url.toString();
+  document.body.appendChild(script);
+}
+
+function mergeParticipants(localList, sheetList) {
+  const map = new Map();
+
+  [...localList, ...sheetList].forEach((item) => {
+    const cleanItem = {
+      adSoyad: String(item.adSoyad || "").trim(),
+      sinif: String(item.sinif || "").trim(),
+      okulNo: String(item.okulNo || "").trim(),
+      kullaniciAdi: String(item.kullaniciAdi || item.lichess || "").trim()
+    };
+
+    if (!cleanItem.adSoyad || !cleanItem.kullaniciAdi) return;
+
+    const key = normalize(`${cleanItem.kullaniciAdi}|${cleanItem.okulNo}|${cleanItem.adSoyad}`);
+    map.set(key, cleanItem);
+  });
+
+  return Array.from(map.values()).sort((a, b) => a.adSoyad.localeCompare(b.adSoyad, "tr"));
 }
 
 function updateCountdown() {

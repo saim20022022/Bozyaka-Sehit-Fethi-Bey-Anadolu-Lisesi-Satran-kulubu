@@ -1,43 +1,30 @@
-Bozyaka ŞFBA 19 Mayıs Online Satranç Turnuvası
+BOZYAKA ŞFBA SATRANÇ TURNUVASI - SHEETS KONTROLLÜ ONAYLI LİSTE
 
-Bu sürümde:
-- Başvuru formu var.
-- Başvurular Google Sheets'e gider.
-- Lichess takım sayfası açılır.
-- Katılımı onaylananlar listesi var.
-- Turnuva sıralaması tablosu var.
-- Yönetici / Google Sheets butonu yoktur.
+Bu sürümde webdeki Katılımı Onaylananlar listesi artık sadece data/onaylananlar.json'a bağlı değildir.
+Liste Google Sheets'ten canlı olarak okunur.
 
-Onaylananları düzenleme:
-data/onaylananlar.json
+ÇALIŞMA MANTIĞI
+1. Öğrenci web formundan başvurur.
+2. Başvuru Google Sheets > Başvurular sayfasına düşer.
+3. Web sitesi Katılımı Onaylananlar listesini Apps Script üzerinden Google Sheets'ten çeker.
+4. Lichess'te onay verdiğin öğrenciler webde görünebilir.
 
-Örnek:
-[
-  { "adSoyad": "Ali Veli", "sinif": "9-A", "kullaniciAdi": "aliveli35" }
-]
+EN KOLAY KULLANIM
+A) Eğer tüm Başvurular sayfasındaki öğrenciler webde görünsün istiyorsan hiçbir şey yapma.
+   Onaylananlar sekmesi yoksa veya boşsa, sistem Başvurular sayfasındaki kayıtları listeler.
 
-Sıralamayı düzenleme:
-data/siralama.json
+B) Sadece onay verdiğin öğrenciler görünsün istiyorsan Google Sheets'te yeni bir sekme aç:
+   Sekme adı: Onaylananlar
+   Başlıklar: Ad Soyad | Sınıf | Okul No | Lichess Kullanıcı Adı
+   Bu sekmeye kimi yazarsan webde sadece onlar görünür.
 
-Örnek:
-[
-  { "sira": 1, "adSoyad": "Ali Veli", "sinif": "9-A", "kullaniciAdi": "aliveli35", "puan": "5", "durum": "Devam ediyor" }
-]
+C) Alternatif olarak Başvurular sayfasına Onay Durumu sütunu ekleyebilirsin.
+   Onay Durumu hücresine ONAYLANDI yazılanlar görünür.
+   Kabul edilen değerler: ONAYLANDI, ONAY, EVET, KABUL, TAMAM, OK
 
-Apps Script daha önce güncellendiyse tekrar dokunmaya gerek yoktur.
+ÖNEMLİ
+Bu sürümde Apps Script kodu güncellendi.
+Google Apps Script ekranında apps_script_kodu.gs içeriğini yapıştırıp mevcut dağıtımı Yeni Sürüm olarak dağıtmalısın.
+URL değişmeyecek.
 
-
-POP-UP DUZELTMESI:
-Bu surumde basvuru sonrasi Lichess takim sayfasi yeni pencere olarak acilmaz.
-Pop-up engelleyiciye takilmamasi icin ayni sekmede yonlendirme yapilir.
-
-
-ONAYLANANLAR LİSTESİ
-Katılımı onaylanan öğrenciler data/onaylananlar.json dosyasından gelir.
-Yeni onay verdikçe aynı formata göre yeni kayıt ekleyin:
-{
-  "adSoyad": "Öğrenci Adı",
-  "sinif": "10-A",
-  "okulNo": "123",
-  "kullaniciAdi": "lichessadi"
-}
+Web dosyalarını GitHub/Netlify'a yüklemen yeterlidir.
